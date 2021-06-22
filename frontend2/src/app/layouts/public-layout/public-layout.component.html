@@ -1,0 +1,18 @@
+<!-- Sidenav -->
+<div (window:resize)="isMobile($event)">
+  <div class="main-content">
+    <!-- Top navbar -->
+    <app-navbar role="3" *ngIf="layoutService.topbar"></app-navbar>
+
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <app-breadcrumb role="3" *ngIf="layoutService.breadcrumbs"></app-breadcrumb>
+
+      <!-- Pages -->
+      <div class="py-6">
+          <router-outlet></router-outlet>
+      </div>
+      <app-footer *ngIf="layoutService.footer"></app-footer>
+    </div>
+  </div>
+</div>

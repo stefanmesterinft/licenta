@@ -1,0 +1,5 @@
+node_modules
+dist
+package-lock.json
+resources/argon-dashboard-pro-angular-v1.2.0/
+__MACOSX/

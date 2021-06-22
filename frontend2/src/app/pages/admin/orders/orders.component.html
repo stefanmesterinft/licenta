@@ -1,0 +1,179 @@
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+        <div class="row">
+          <!-- DIVS with col form-group-inline -->
+          <!-- client -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i>
+                </span>
+              </div>
+
+              <input [(ngModel)]="selected.user"
+              [ngModelOptions]="{ standalone: true }"
+              [typeahead]="users$"
+              [typeaheadAsync]="true"
+              (typeaheadOnSelect)="selectMatch('user',$event)"
+              typeaheadOptionField="name"
+              (input)="clearIfEmpty('user')"
+              class="form-control" placeholder="User">
+            </div>
+          </div>
+
+           <!-- orderStatus -->
+           <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-spinner"></i>
+                </span>
+              </div>
+              <!-- [typeaheadItemTemplate]="customItemTemplate" -->
+              <select class="form-control" (change)="selectMatch('orderStatus',$event)" name="orderStatus" style="padding:0;border-right: 0;">
+                <option value=""> All orders </option>
+
+                <option [value]="orderStatus.value" *ngFor="let orderStatus of orderStatuses"> {{orderStatus.label}} </option>
+              </select>
+           
+            </div>
+          </div>
+          
+
+            <!-- created since -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.startDate"
+                  name="startDate" class="form-control" placeholder="Created since" type="text">
+              </div>
+            </div>
+
+        <!-- created until -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.endDate"
+                  name="endDate" class="form-control" placeholder="Created before" type="text">
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+
+    <div class=" table-responsive table-hover sticky-last-column">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Status</th>
+
+            <th scope="col">Client</th>
+
+            <th scope="col" class="text-center">Address</th>
+
+            <th scope="col" class="text-center">Price</th>
+
+            <th scope="col" class="text-center">Shipping</th>
+
+            <th scope="col" class="text-center">Date placed</th>
+
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="6" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(orders$ | async) as orders; else loading">
+            <tr>
+              <td colspan="6" class="text-center" *ngIf="orders.length === 0"> No orders available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let order of orders | paginate: ordersPager">
+              <th scope="row">
+                <div *ngIf="order.orderStatus == 'PLACED' " class=" icon icon-md icon-shape bg-white shadow rounded-circle">
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+
+                <div *ngIf="order.orderStatus == 'CONFIRMED' " class=" icon icon-md icon-shape bg-info shadow rounded-circle">
+                  <i class="fas fa-check" style="color: white;"></i>
+                </div>
+
+                <div *ngIf="order.orderStatus == 'SENT' " class=" icon icon-md icon-shape bg-yellow shadow rounded-circle">
+                  <i class="fas fa-truck-loading" style="color: white;"></i>
+                </div>
+
+                <div *ngIf="order.orderStatus == 'DELIVERED' " class=" icon icon-md icon-shape bg-success shadow rounded-circle">
+                  <i class="fas fa-box-open" style="color: white;"></i>
+                </div>
+
+                <div *ngIf="order.orderStatus == 'CANCELED' " class=" icon icon-md icon-shape bg-danger shadow rounded-circle">
+                  <i class="fas fa-times" style="color: white;"></i>
+                </div>
+              </th>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="order.user">
+                  <ngx-avatar class="mr-2" 
+                    [name]="order.user.firstName + ' ' + order.user.lastName" 
+                    [src]="order.user.avatar"
+                    [round]="true" 
+                    [initialsSize]="2">
+                  </ngx-avatar>
+
+                  <div class=" media-body d-flex flex-column">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{order.user.firstName}} {{ order.user.lastName}}
+                    </span>
+                    <small class="text-muted">{{order.user.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y text-center">{{order.address}}</td>
+
+              <td class="bg-y text-center">{{order.price}} RON</td>
+
+              <td class="bg-y text-center">{{order.shipping}}</td>
+
+              <td class="bg-y text-center">{{order.createdAt | date: 'dd/MM/yyyy hh:mm'}}</td>
+
+              <td class=" text-right">
+                <div dropdown class="dropdown no-caret" container="body">
+                  <a id="button-basic" dropdownToggle role="button"
+                    class="btn btn-sm btn-icon-only text-black dropdown-toggle" aria-controls="dropdown-basic">
+                    <i class=" fas fa-ellipsis-v"> </i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+                  
+                    
+                    <button class="dropdown-item" (click)="editOrder(order)">
+                      Edit
+                    </button>
+                    
+
+                    <button class="dropdown-item" (click)="viewOrder(order)">
+                      View
+                    </button>
+
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+  </div>
+</div>

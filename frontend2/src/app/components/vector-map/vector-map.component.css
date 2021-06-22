@@ -1,0 +1,17 @@
+::ng-deep .minimap {
+  min-height: 350px;
+  width: 100%;
+  display: block;
+}
+
+::ng-deep .minimap>svg>rect {
+  stroke: #fff;
+}
+
+::ng-deep .minimap .dxm-control-bar {
+  transform: translate(40px, 40px) scale(0.75, 0.75);
+}
+
+::ng-deep .vector-map > svg > rect {
+  stroke: #fff;
+}

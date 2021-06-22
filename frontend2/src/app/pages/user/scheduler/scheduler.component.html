@@ -1,0 +1,61 @@
+<div class=" header header-dark  pb-6 content__title content__title--calendar">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6">
+          <h2 class=" text-dark d-inline-block mb-0">
+            {{startDateLabel | date:dateFormat}}
+
+            <span *ngIf="calendar.state.viewType == 'dayGridWeek'">
+              - {{endDateLabel  | date:dateFormat}}
+            </span>
+
+          </h2>
+        </div>
+
+        <div class=" col-lg-6 mt-3 mt-lg-0 text-lg-right">
+          <button class=" btn btn-sm btn-neutral"
+            (click)="changeRange('prev')">
+            <i class=" fas fa-angle-left"> </i>
+          </button>
+
+          <button class=" btn btn-sm btn-neutral" 
+            (click)="changeRange('next')">
+            <i class=" fas fa-angle-right"> </i>
+          </button>
+
+          <button class=" btn btn-sm btn-neutral"
+            (click)="changeView('dayGridMonth')">
+            Month
+          </button>
+
+          <button class=" btn btn-sm btn-neutral"
+            (click)="changeView('dayGridWeek')">
+            Week
+          </button>
+
+          <button class=" btn btn-sm btn-neutral"
+            (click)="changeView('dayGridDay')">
+            Day
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card card-calendar">
+        <div class=" card-header">
+          <!-- filters -->
+        </div>
+
+        <div class=" card-body p-0">
+          <div class=" calendar" data-toggle="calendar" id="calendar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

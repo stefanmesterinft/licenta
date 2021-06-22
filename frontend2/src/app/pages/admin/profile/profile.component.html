@@ -1,0 +1,331 @@
+<div class=" header pb-6 d-flex align-items-center my--6"
+  style="min-height: 400px;">
+  <span class=" mask bg-secondary opacity-8"> </span>
+
+  <div class=" container-fluid d-flex align-items-center" *ngIf="authService.getId()===profile.id">
+    <div class=" row">
+      <div class=" col-12">
+        <h3 class=" display-2 text-white">Hello {{profile.firstName}}</h3>
+        <p class=" text-white mt-0 mb-5">
+          This is your profile page. You can update your profile information from here any time you want.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class=" container-fluid d-flex align-items-center" *ngIf="authService.getId()!==profile.id">
+    <div class=" row">
+      <div class=" col-12">
+        <h3 class=" display-2 text-white">{{profile.firstName}} {{profile.lastName}}</h3>
+        <p class=" text-white mt-0 mb-5">
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col-xl-4 order-xl-2">
+      <div class=" card card-profile">
+        <input #coverUpload type="file" (click)="coverUpload.value = null" (change)="uploadImage('cover', $event)"
+          class="d-none" accept="image/*">
+        <img alt="Cover photo" class=" card-img-top"
+          [src]="profile.cover || 'assets/img/theme/img-1-1000x600.jpg'" />
+
+        <i *ngIf="editMode" class="ni ni-cloud-upload-96 profile-cover-upload" (click)="uploadClick(coverUpload)"></i>
+
+        <div class=" row justify-content-center">
+          <div class=" col-lg-3 order-lg-2">
+            <div class=" card-profile-image">
+              <a href="javascript:void(0)">
+                <input #avatarUpload type="file" (click)="avatarUpload.value = null"
+                  (change)="uploadImage('avatar', $event)" class="d-none" accept="image/*">
+                <ngx-avatar 
+                  [name]="profile.firstName + ' ' + profile.lastName" 
+                  [src]="profile.avatar"
+                  [round]="true"
+                  size="140" (clickOnAvatar)="uploadClick(avatarUpload)" [initialsSize]="2">
+                  <i *ngIf="editMode" class="ni ni-cloud-upload-96"></i>
+                </ngx-avatar>
+                <i *ngIf="editMode" class="ni ni-cloud-upload-96 profile-image-upload"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class=" card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class=" d-flex justify-content-between">
+
+          </div>
+        </div>
+
+        <div class=" card-body pt-8 pt-md-4 pb-0 pb-md-4">
+          <!-- <div class=" row">
+            <div class=" col">
+              <div class=" card-profile-stats d-flex justify-content-center">
+                <div>
+                  <span class=" heading"> {{profile.totals?.pending || 0}} </span>
+
+                  <span class=" description"> tests pending </span>
+                </div>
+
+                <div>
+                  <span class=" heading"> {{profile.totals?.positive || 0}} </span>
+
+                  <span class=" description"> tests positive </span>
+                </div>
+
+                <div>
+                  <span class=" heading"> {{profile.totals?.negative || 0}} </span>
+
+                  <span class=" description"> tests negative </span>
+                </div>
+
+                <div>
+                  <span class=" heading"> {{profile.totals?.retest || 0}} </span>
+
+                  <span class=" description"> tests invalid </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class=" text-center">
+            <h5 class=" h3">
+              {{profile.firstName}} {{profile.lastName}}
+            </h5>
+
+            <div class=" h5 font-weight-300" *ngIf="address()">
+              <i class=" ni ni-pin-3 mr-2"> </i> {{address()}}
+            </div>
+
+            <div class=" h5 mt-4" *ngIf="profile.email">
+              <i class=" ni ni-email-83 mr-2"> </i> {{profile.email}}
+            </div>
+
+            <div *ngIf="profile.socialSecurityNumber">
+              <i class=" ni ni-badge mr-2"> </i> {{profile.socialSecurityNumber}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-8 order-xl-1">
+      <div class=" card">
+        <form [formGroup]="profileForm" autocomplete="off" (ngSubmit)="onSubmit()">
+          <div class=" card-header">
+            <div class=" row align-items-center">
+              <div class=" col-8">
+                <h3 class=" mb-0" *ngIf="editMode">Edit profile</h3>
+                <h3 class=" mb-0" *ngIf="!editMode && profile.id===authService.getId()">Your profile</h3>
+                <h3 class=" mb-0" *ngIf="!editMode && profile.id!==authService.getId()">Profile</h3>
+              </div>
+
+              <div class=" col-4 text-right">
+                <button class="btn btn-sm btn-primary" type="button" (click)="edit()"
+                  *ngIf="!editMode && (authService.getId()===profile.id || authService.hasRole('ADMIN','TESTER_ADMIN'))">
+                  Edit profile
+                </button>
+                <button type="submit" class=" btn btn-sm btn-primary" *ngIf="editMode">
+                  Save changes
+                </button>
+                <button type="button" class=" btn btn-sm btn-neutral" (click)="cancel()" *ngIf="editMode">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class=" card-body">
+            <h6 class=" heading-small text-muted mb-4">User information</h6>
+
+            <div>
+              <div class=" row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-first-name">
+                      First name
+                    </label>
+
+                    <input class=" form-control" id="input-first-name" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.firstName.errors"
+                      formControlName="firstName" />
+
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstName.errors.required">
+                        First name is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-last-name">
+                      Last name
+                    </label>
+
+                    <input class=" form-control" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.lastName.errors"
+                      formControlName="lastName" />
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                      <div *ngIf="f.lastName.errors.required">
+                        Last name is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class=" row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-email">
+                      Email address
+                    </label>
+
+                    <input class=" form-control" id="input-email" type="email" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.email.errors"
+                      formControlName="email" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">
+                        Email address is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-email">
+                      Phone
+                    </label>
+
+                    <input class=" form-control" id="input-phone" type="phone" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.phone.errors"
+                      formControlName="phone" />
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.phone.errors.required">
+                        Phone is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            
+            <div class ="row">
+              <div class=" col-md-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-sex">
+                      Sex
+                    </label>
+                    <input readonly="true" *ngIf="!editMode" class="form-control form-control-flush ng-untouched ng-pristine ng-valid" [value]="formatSex(f.sex.value)">
+                    <select class="form-control" data-toggle="select" 
+                      [class.is-invalid]="submitted && f.sex.errors"
+                      id="selectr" formControlName="sex" *ngIf="editMode">
+                      <option value=""> Select your sex </option>
+                      <option [value]="s.value" *ngFor="let s of sex"> {{s.label}} </option>
+                    </select>
+                    <div *ngIf="submitted && f.sex.errors" class="invalid-feedback">
+                      <div *ngIf="f.sex.errors.required">
+                        Sex is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <hr class=" my-4" />
+
+            <h6 class=" heading-small text-muted mb-4">Contact information</h6>
+
+            <div>
+              <div class=" row">
+                <div class=" col-md-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-address">
+                      Address Line 1
+                    </label>
+
+                    <input class=" form-control" id="input-address" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.address1.errors"
+                      formControlName="address1" />
+                    <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
+                      <div *ngIf="f.address1.errors.required">
+                        Address is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class=" row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-city">
+                      City
+                    </label>
+
+                    <input class=" form-control" id="input-city" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.city.errors"
+                      formControlName="city" />
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                      <div *ngIf="f.city.errors.required">
+                        City is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-state">
+                      State
+                    </label>
+
+                    <select formControlName="state" class="form-control" *ngIf="editMode" data-toggle="select" 
+                      [class.is-invalid]="submitted && f.state.errors">
+                      <option value=""> Select your state </option>
+                      <option *ngFor="let state of states" [value]="state.value">{{state.label}}</option>  
+                    </select>
+                    <input class=" form-control" id="input-state" type="text" readonly *ngIf="!editMode"
+                      [class.form-control-flush]="!editMode"
+                      formControlName="state" />
+                    <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                      <div *ngIf="f.state.errors.required">
+                        State is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-postal-code">
+                      Postal code
+                    </label>
+
+                    <input class=" form-control" id="input-postal-code" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.postalCode.errors"
+                      formControlName="postalCode" />
+                    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                      <div *ngIf="f.postalCode.errors.required">
+                        Postal code is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

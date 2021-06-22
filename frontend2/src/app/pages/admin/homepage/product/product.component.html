@@ -1,0 +1,212 @@
+<div class="row mx-2">
+  <div class="col-6">
+    <div class=" card">
+      <img
+        alt="Image placeholder"
+        class=" card-img-top"
+        [src]=getImage()
+        style="width:300px; height:400px;  display: block;margin-left: auto;margin-right: auto;"
+      />
+    
+      <div class=" card-body">
+        <h3 class=" h2 card-title mb-3">{{ products[0]?.name }}</h3> 
+
+        <div *ngIf="products && products[0] && !products[0].new_price">
+          <h3 class="h2 card-title mb-0" style="color: #adb5bd">{{ products[0]?.price }} RON</h3>
+        </div>
+
+        <div *ngIf="products && products[0] && products[0].new_price" class="d-flex flex-row">
+          <h3 class="h2 card-title mb-0 mr-3" style="color: #adb5bd"><del>{{ products[0]?.price }} RON</del></h3>
+          <h3 class="h2 card-title mb-0" style="color: #bd081c">{{ products[0]?.new_price }} RON</h3>
+        </div>
+
+        <p class="text-muted mt-0 mb-4"><small>TVA included</small></p>
+
+        <div class="row">
+          <div class="col-6">
+            <h5 class=" h2 card-title mb-0 product-details cursor-pointer" (click)="displayDetails = !displayDetails">Details</h5> 
+            <div *ngIf="displayDetails && products[0]">
+              <p class=" card-text">
+                Description: {{ products[0].description || "Not specified" }} <br>
+                Sex: {{ products[0].sex || "Not specified" }}<br>
+                Brand: {{ products[0].brand || "Not specified" }}<br>
+                Color: {{ products[0].color || "Not specified" }}<br>
+                Material: {{ products[0].material || "Not specified" }}<br>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <h5 class=" h2 card-title mb-0 product-details cursor-pointer" (click)="displayDetailsCourier = !displayDetailsCourier">Delivery & free returns</h5> 
+            <div *ngIf="displayDetailsCourier">
+              <p><strong> We've got your back</strong></p>
+              <ul>
+                <li>One delivery fee</li>
+                <li>Free returns within 14 days</li>
+                <li>All our deliveries are climate conscious</li>
+              </ul>
+              <p><strong>Estimated delivery</strong></p>
+              <ul>
+                <li>Normal: 5-7 working days</li>
+                <li>Express: 2-4 working days</li>
+                <li>Instant: 1 working day</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary mt-3">
+          Add to cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div
+        class=" card card-pricing bg-gradient-success border-0 text-center mb-4"
+      >
+        <div class=" card-header bg-transparent">
+          <h4 class=" text-uppercase ls-1 text-white py-3 mb-0">Price and size select </h4>
+        </div>
+
+        <div class=" card-body px-lg-7">
+          <div *ngIf="products && products[0]" class=" display-2 text-white">{{products[0]?.new_price || products[0]?.price}} RON</div>
+
+          <span class=" text-white"> per product </span>
+
+          <ul class=" list-unstyled my-4 d-flex flex-column align-items-center justify-content-center">
+            <li>
+              <div class=" d-flex flex-column align-items-center justify-content-center">
+                <div class="d-flex align-items-center">
+                  <div>
+                    <div
+                      class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                    >
+                    <i class="fas fa-ruler-vertical"></i>
+                    </div>
+                  </div>
+  
+                  <div>
+                    <span class=" pl-2 text-sm text-white">
+                      Size select
+                    </span>
+  
+                  </div>
+                </div>
+
+                <div class=" form-group mt-4">
+                  <select class=" form-control" id="exampleFormControlSelect1" [(ngModel)]="selectedSize">
+                    <option [value]="size.size" *ngFor="let size of sizes"> {{ size.size }} </option>
+                  </select>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class=" d-flex align-items-center">
+                <div>
+                  <div
+                    class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                  >
+                  <i class="fas fa-money-bill-wave-alt"></i>
+                </div>
+                </div>
+
+                <div>
+                  <span class=" pl-2 text-sm text-white">
+                    Cash payment
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class=" d-flex align-items-center">
+                <div>
+                  <div
+                    class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                  >
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                </div>
+
+                <div>
+                  <span class=" pl-2 text-sm text-white">
+                    Card payment coming soon
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class=" d-flex align-items-center">
+                <div>
+                  <div
+                    class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                  >
+                  <i class="fas fa-truck"></i>
+                </div>
+                </div>
+
+                <div>
+                  <span class=" pl-2 text-sm text-white">
+                    Free returns within 14 days
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class=" d-flex align-items-center">
+                <div>
+                  <div
+                    class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                  >
+                  <i class="fas fa-sync"></i>
+                </div>
+                </div>
+
+                <div>
+                  <span class=" pl-2 text-sm text-white">
+                    100 days for return
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class=" d-flex align-items-center">
+                <div>
+                  <div
+                    class=" icon icon-xs icon-shape bg-white shadow rounded-circle"
+                  >
+                  <i class="fas fa-tshirt"></i>
+                </div>
+                </div>
+
+                <div>
+                  <span class=" pl-2 text-sm text-white">
+                    Over 1000 brands
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <button class=" btn btn-white mb-3" type="button" (click)="addToCart()">
+            Add to cart
+          </button>
+        </div>
+
+        <div class=" card-footer bg-transparent">
+          <a class=" text-white" href="javascript:void(0)"> Size guide </a>
+        </div>
+      </div>
+  </div>
+</div>
+
+

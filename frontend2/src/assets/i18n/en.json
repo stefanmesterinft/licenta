@@ -1,0 +1,251 @@
+{
+    "ROLE": {
+        "USER": "Member",
+        "SPECIALIST": "Counselor specialist",
+        "COORDINATOR": "Specialists coordinator",
+        "CREATOR": "Content creator",
+        "EDITOR": "Editor",
+        "ADMIN": "Administrator"
+    },
+    "ANSWERTYPE": {
+        "DATETIME": "Datetime",
+        "NUMBER": "Number",
+        "TEXT": "Text",
+        "DROPDOWN": "Dropdown",
+        "RADIO": "Radio",
+        "CHECKBOX": "Checkbox"
+    },
+    "TITLES": {
+        "PROFESSOR": "Professor",
+        "SCHOOL_COUNSELOR": "School Counselor",
+        "PSYCHOTHERAPIST": "Psychotherapist",
+        "STUDENT": "Student"
+    },
+    "REGISTER_REFERERS": {
+        "FB": "Facebook",
+        "GOOGLE": "Google",
+        "TRAINER": "Trainer",
+        "COLLEAGUE": "It was recommended by a colleague",
+        "ISJ": "County School Inspectorate",
+        "MEMBERS": "Message to team members",
+        "EMAIL": "Message received by email"
+    },
+    "success": {
+        "account_has_been_registered": "Your account has been created. Plese confirm your email address in order to login. A verification email has been sent to your email address.",
+        "account_has_been_created": "Account has been created.",
+        "account_has_been_edited": "Account has been edited.",
+        "checked_in": "You have succesfully checked in this unit",
+        "checked_out": "You have succesfully checked out this unit",
+        "question_has_been_created": "Question has been created.",
+        "question_has_been_edited": "Question has been edited.",
+        "forgot_password_has_been_sent": "If there is an account using this email address you will receive a message with the instructions on how to reset your password. Please check your inbox.",
+        "resend_verification_has_been_sent": "Verification email has been resent to your email address. Please check your inbox.",
+        "reset_password_complete": "Your password has been changed. You can now login with your new password.",
+        "set_password_complete": "Your password has been set. You can now login with your new password.",
+        "message_sent": "Your message has been sent successfully",
+        "settings_saved": "Your settings have been saved",
+        "sms_code_sent": " We have sent you and SMS with you login code."
+    },
+    "error": {
+        "rules": {
+            "phone_must_be_a_valid_phone_number": "Phone field must be a valid phone number",
+            "postal_code_must_be_a_postal_code": "Postal code field must be a valid postal code",
+            "password_is_not_a_valid_password": "Password must be of minimum 8 characters using letters, numbers and any of the following symbols !@#$%^&*",
+            "email_must_be_an_email": "Email address is not valid",
+            "all_answers_elements_must_be_unique": "You have to insert unique answers",
+            "answers_should_not_be_empty": "Answer list should not be empty",
+            "answers_must_be_an_array": "You have to provide a list of answers",
+            "educational_unit_must_be_a_string" : "Educational unit must be a string",
+            "educational_unit_should_not_be_empty": "Educational unit should not be empty"
+        },
+
+        "fields": {
+            "required": "This field is required",
+            "passwords_match": "This field must match password field.",
+            "min_length": "Minimum password length is {{length}} characters.",
+            "valid_email": "Please fill in a valid email address.",
+            "valid_sms_code": "A valid 6 digit sms code is required."
+        },
+
+        "unique": {
+            "user": {
+                "email": "Email address already in use",
+                "socialSecurityNumber": "Social security number already in use"
+            }
+        },
+        "forgot_password": {
+            "email_sent_recently": "A password request has already been requested in the last 5 minutes for this email address. Please try again in 5 minutes.",
+            "token_not_valid": "The reset password token is not valid.",
+            "no_valid_token_can_be_created": "No valid token can be created. Please try again later."
+        },
+        "email_verification": {
+            "email_sent_recently": "A verification email has already been requested in the last 5 minutes for this email address. Please try again in 5 minutes.",
+            "token_not_valid": "The email verification token is not valid.",
+            "no_valid_token_can_be_created": "No valid token can be created. Please try again later.",
+            "email_not_valid" : "We can not confirm your email account. Please request another email verification and try again."
+        },
+        "phone_verification": {
+            "sms_sent_recently": "A verification SMS has already been requested in the last 5 minutes for this phone number. Please try again in 5 minutes.",
+            "no_valid_token_can_be_created": "A valid sms code could not be ganerate. Make sure your phone number is correct and try again"
+        },
+        "login": {
+            "email_not_confirmed": "You have not confirmed your email address. <a href='#/auth/email/resend'>Please click here</a> to resend verification email.",
+            "account_not_confirmed": "You have not confirmed your account.  <a href='#/auth/email/resend'>Please click here</a> to resend verification email or <a href='#/auth/phone/verify'>click here</a> to do confirm via SMS.",
+            "account_suspended": "Your account has been suspended. Please contact the administrator in order to regain access"
+        },
+        "settings": {
+            "not_saved": "An unknown error occured saving you settings"
+        },
+        "user_not_found": "Cannot login, please check your email address/phone number and password and try again.",
+        "something_went_wrong": "Something went wrong. Please try again.",
+        "pdf_introduction_to_long": "Sorry, the text provided is to long."
+    },
+
+    "register": {
+        "create_account": "Create account",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "city": "City",
+        "state": "State",
+        "educational_unit": "Educational Unit",
+        "phone": "Telephone",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "referer": "Where did you hear about the PORTAL?",
+        "become_creator": "I want to be a content creator on the portal (publishing resources and useful materials)",
+        "agree_with": "I agree with",
+        "terms_and_cond": "Terms and Conditions",
+        "agree_newsletter": "I agree to periodically receive useful information from the portal team by email",
+        "sex": "Sex",
+        "address1": "Address 1",
+        "address2": "Address 2",
+        "postalCode": "Postal Code",
+        "texts": {
+            "title": "Create an account",
+            "description": "In order to use our system you will have to create an account by providing some information about you",
+            "fill_credentials": "Please fill in your login credentials.",
+            "fill_userinfo": "Please your fill in your personal information."
+        }
+    },
+
+    "login": {
+        "password": "Password",
+        "email_or_phone": "Email address",
+        "remember_me": "Remember me",
+        "sign_in": "Sign in",
+        "sms_code_verify": "Verify",
+        "texts": {
+            "title": "Welcome back",
+            "title_verify": "Welcome",
+            "description": "In order to continue you have to provide your login credentials. Please fill in the fields below.",
+            "sms_code_subtitle": "SMS code",
+            "subtitle": "Sign in",
+            "account_created_1": "Your account has been created. Please confirm your email address in order to login. A verification email has been sent to your email address. If you have not recieved the email yet, please",
+            "account_created_click": "click here",
+            "account_created_2": "to resend the email."
+        }
+    },
+
+    "email_resend_verification": {
+        "resend_email": "Resend email",
+        "email": "Email Address",
+        "texts": {
+            "title": "Resend email verification",
+            "new_email_request": "You did not receive you email confirmation ? No problem. You can request a new email to be sent to you using the form below.",
+            "description": "Enter your email address to receive you verification email."
+        }
+    },
+
+    "email_verify": {
+        "email_or_phone": "Email or phone number",
+        "password": "Password",
+        "remember_me" : "Remember me",
+        "sign_in" : "Sign in",
+        "texts": {
+            "title": "Email verification",
+            "description_validated": "Thank you for validating your email address. You can now login using the form below.",
+            "description_in_progress": "Email verification in progress, please wait..."
+        }
+    },
+
+    "phone_verify": {
+        "no_account": "If there is an account with that phone number set, we have sent an SMS with the login code.",
+        "code" : "Enter the code you recieved via SMS",
+        "verify": "Verify",
+        "phone_number" : "Enter your account's phone number",
+        "send_sms" : "Send me an SMS",
+        "no_thanks" : "No, thanks.",
+        "texts": {
+            "title": "Account verification",
+            "click": "click here",
+            "account_created_1": "Your account has been created. Please confirm your email address in order to login. A verification email has been sent to your email address. If you have not recieved the email yet, please ",
+            "account_created_2":"to resend the email.",
+            "sms_sent" : "We have sent an SMS containing the confirmation code for your account.",
+            "not_recive_1" : "If you did not recieve the code",
+            "not_recive_2" : "to resend the message again.",
+            "verify_sms" : "Would you instead like to verify your account via SMS?",
+            "confirmed" : "Already confirmed?",
+            "create_new" : "Create new account"
+        }
+    },
+
+    "reset_password": {
+        "resend_email": "Resend email",
+        "new_password": "Your new password",
+        "confirm_password": "Confirm your new password",
+        "reset_password": "Reset my password",
+        "texts": {
+            "title": "Reset your password",
+            "description": "Hello, please type your new password."
+        }
+    },
+
+    "set_password": {
+        "resend_email": "Resend email",
+        "new_password": "Your new password",
+        "confirm_password": "Confirm your new password",
+        "save_password": "Save my password",
+        "texts": {
+            "title": "Setup your account",
+            "description": "Hello, please setup your new account password."
+        }
+    },
+
+    "password_recover": {
+        "email": "Email address",
+        "recover_password": "Recover Password",
+        "texts": {
+            "title": "Recover Password",
+            "description": "Did you forgot your password ? No problem, just make a password reset request down below and we will help you out.",
+            "subtitle": "Enter your email address to receive a password recovery email."
+        }
+    },
+
+    "contact": {
+        "name": "Full name",
+        "email": "Email address",
+        "address": "Address",
+        "phone": "Telephone",
+        "message": "Message",
+        "send": "Send",
+        "texts": {
+            "title": "Get in touch with us",
+            "info_title": "Contact information",
+            "info_phone": "Telephone",
+            "info_email": "Email Address"
+        }
+    },
+
+    "footer": {
+        "terms_and_cond": "Terms and Conditions",
+        "privacy": "Privacy Policy",
+        "contact": "Contact"
+    },
+
+    "GENERAL": {
+        "forgot_password": "Forgot password?",
+        "create_account": "Create new account",
+        "have_account_login": "Have an account? Login here"
+    }
+}

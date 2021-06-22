@@ -1,0 +1,16 @@
+@import '~bootstrap/scss/mixins';
+
+
+::ng-deep .bg-default .footer {
+    .text-muted, a,
+    .nav .nav-item .nav-link {
+        color: #fff !important;
+    }
+
+    a,
+    .nav .nav-item .nav-link { 
+        @include hover-focus {
+            color: darken(#fff, 10%) !important;
+        }
+    }
+}

@@ -1,0 +1,328 @@
+<div class=" main-content">
+  <div class=" header bg-secondary py-7 py-lg-8 pt-lg-9">
+    <div class=" container">
+      <div class=" header-body text-center mb-7">
+        <div class=" row justify-content-center">
+          <div class=" col-xl-5 col-lg-6 col-md-8 px-5">
+            <h1 class=" text-white">{{ "register.texts.title" | translate }}</h1>
+
+            <p class=" text-lead text-white">
+              {{ "register.texts.description" | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-primary" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+
+  <div class=" container mt--8 pb-5">
+    <div class=" row justify-content-center">
+      <div class="col-lg-10 col-md-12">
+        <div class=" card bg-light border-0">
+          <div class=" card-body px-lg-5 pb-lg-5">
+            <form [formGroup]="form" autocomplete="off" (ngSubmit)="register()">
+              <div class=" text-center text-muted mb-4">
+                <small> {{'register.texts.fill_credentials' | translate}} </small>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.email.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      </div>
+                      <input autocomplete="off" autocapitalize="off" autocorrect="off"
+                      formControlName="email" class="form-control" [placeholder]="'register.email' | translate" type="email" />
+                    </div>
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                      <div *ngIf="f.email.errors.email">
+                        {{ "error.fields.valid_email" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && (f.password.errors || form.errors?.passwordsMismatch)">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      <input autocomplete="off" autocapitalize="off" autocorrect="off"
+                      formControlName="password" class="form-control" [placeholder]="'register.password' | translate" type="password" />
+                    </div>
+                    <div *ngIf="submitted && (f.password.errors || form.errors?.passwordsMismatch)" class="invalid-feedback">
+                      <div *ngIf="f.password.errors?.required">
+                        {{ "error.fields.required" | translate}}
+                      </div>
+                      <div *ngIf="f.password.errors?.minlength">
+                        {{'error.fields.min_length' | translate:"{length: 8}"}}
+                      </div>
+                      <div *ngIf="form.errors?.passwordsMismatch">
+                        {{'error.fields.passwords_match' | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && (f.confirmPassword.errors|| form.errors?.passwordsMismatch)">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      <input formControlName="confirmPassword" class="form-control" [placeholder]="'register.confirm_password' | translate"
+                        type="password" />
+                    </div>
+                    <div *ngIf="submitted && (f.confirmPassword.errors|| form.errors?.passwordsMismatch)" class="invalid-feedback">
+                      <div *ngIf="f.confirmPassword.errors?.required">
+                        {{ "error.fields.required" | translate}}
+                      </div>
+                      <div *ngIf="form.errors?.passwordsMismatch">
+                        {{'error.fields.passwords_match' | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="mx--4 mx-lg--5"/>
+
+              <div class=" text-center text-muted mb-4">
+                <small> {{'register.texts.fill_userinfo' | translate}} </small>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-12">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.sex.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <select formControlName="sex" class="form-control" data-toggle="select" >
+                        <option value=""> {{'register.sex' | translate}} </option>
+                        <option *ngFor="let sex of sexes" [value]="sex.value">{{sex.value | translate}}</option>  
+                      </select>
+                    </div>
+                    <div *ngIf="submitted && f.sex.errors" class="invalid-feedback">
+                      <div *ngIf="f.sex.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.firstName.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <input class="form-control" formControlName="firstName" [placeholder]="'register.first_name' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstName.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.lastName.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <input formControlName="lastName" class="form-control" [placeholder]="'register.last_name' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                      <div *ngIf="f.lastName.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.city.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                      </div>
+                      <input formControlName="city" class="form-control" [placeholder]="'register.city' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                      <div *ngIf="f.city.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.state.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-map-big"></i></span>
+                      </div>
+                      <select formControlName="state" class="form-control" data-toggle="select" >
+                        <option value=""> {{'register.state' | translate}} </option>
+                        <option *ngFor="let state of states" [value]="state.value">{{state.label}}</option>  
+                      </select>
+                    </div>
+                    <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                      <div *ngIf="f.state.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.address1.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <input class="form-control" formControlName="address1" [placeholder]="'register.address1' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
+                      <div *ngIf="f.address1.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.address2.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <input class="form-control" formControlName="address2" [placeholder]="'register.address2' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.address2.errors" class="invalid-feedback">
+                      <div *ngIf="f.address2.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                      [class.is-invalid]="submitted && f.phone.errors">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                      </div>
+                      <input formControlName="phone" class="form-control" [placeholder]="'register.phone' | translate" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.phone.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>             
+
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3"
+                    [class.is-invalid]="submitted && f.postalCode.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                    </div>
+                    <input formControlName="postalCode" class="form-control" [placeholder]="'register.postalCode' | translate" type="text" />
+                  </div>
+                  <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.postalCode.errors.required">
+                       {{ "error.fields.required" | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>             
+            </div> 
+
+
+              <div class="row my-0">
+                <div class="col-12 col-md-12">
+                  <div class="custom-control custom-control-alternative custom-checkbox">
+                    <input formControlName="acceptedPolicy" class="custom-control-input" id="acceptedPolicy"
+                      [class.is-invalid]="submitted && f.acceptedPolicy.errors" type="checkbox" />
+                    <label class="custom-control-label" for="acceptedPolicy">
+                      <span> {{ "register.agree_with" | translate}} <a href="javascript:void(0)" [routerLink]="['/page/terms']"> {{ "register.terms_and_cond" | translate}}</a>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <!-- <div class="row">
+                <div class=" col-12 d-flex justify-content-between align-items-center">
+                  <div>
+                    <div class="input-group border-0" [class.is-invalid]="submitted && f.recaptcha.errors">
+                      <re-captcha #reCaptcha formControlName="recaptcha" name="recaptcha" [siteKey]="GOOGLE_RECAPTCHA_SITE_KEY"></re-captcha>
+                    </div>
+                    <div *ngIf="submitted && f.recaptcha.errors" class="invalid-feedback">
+                      <div *ngIf="f.recaptcha.errors.required">
+                         {{ "error.fields.required" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="text-center">
+
+                <button type="button" type="submit" class="btn btn-primary mt-4">
+                  {{ "register.create_account" | translate}}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class=" row mt-3">
+          <div class=" col-6">
+            <a class="text-white" routerLinkActive="active" [routerLink]="['/auth/recover']">
+              <small> {{ "GENERAL.forgot_password" | translate }} </small>
+            </a>
+          </div>
+
+          <div class=" col-6 text-right">
+            <a class="text-white" routerLinkActive="active" [routerLink]="['/auth/login']">
+              <small> {{ "GENERAL.have_account_login" | translate }} </small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

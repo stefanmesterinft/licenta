@@ -1,0 +1,93 @@
+<div class=" header bg-secondary py-7 py-lg-8 pt-lg-9">
+  <div class=" container">
+    <div class=" header-body text-center mb-7">
+      <div class=" row justify-content-center">
+        <div class=" col-xl-5 col-lg-6 col-md-8 px-5">
+          <h1 class=" text-white">{{ "email_resend_verification.texts.title" | translate }}</h1>
+          <p class=" text-lead text-white">
+            {{ "email_resend_verification.texts.new_email_request" | translate}}
+           </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg
+      x="0"
+      y="0"
+      viewBox="0 0 2560 100"
+      preserveAspectRatio="none"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon class="fill-primary" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+
+<div class=" container mt--9 pb-5">
+  <div class=" row justify-content-center">
+    <div class=" col-lg-5 col-md-7">
+      <div class=" card card-profile bg-light mt-5">
+
+        <div class=" card-body pt-5 px-5">
+          <div class=" text-center mb-4"><h3>{{ "email_resend_verification.texts.description" | translate}}</h3></div>
+
+          <form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
+            <div class=" form-group">
+              <div
+                class=" input-group input-group-merge input-group-alternative"
+                [class.is-invalid]="submitted && f.email.errors"
+              >
+                <div class=" input-group-prepend">
+                  <span class=" input-group-text">
+                    <i class=" ni ni-email-83"> </i>
+                  </span>
+                </div>
+
+                <input
+                  class="form-control"
+                  [placeholder]="'email_resend_verification.email' | translate"
+                  type="email"
+                  name="email"
+                  formControlName="email"
+                />
+              </div>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">
+                  {{"error.fields.required" | translate}}
+                </div>
+                <div *ngIf="f.email.errors.email">
+                  {{"error.fields.valid_email" | translate}}
+                </div>
+              </div>
+            </div>
+
+            <div class=" text-center">
+              <button class=" btn btn-primary mt-2">
+                {{ "email_resend_verification.resend_email" | translate}}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class=" row mt-3">
+        <div class=" col-6">
+          <a routerLinkActive="active" class="text-white"
+          [routerLink]="['/auth/login']">
+            <small> {{ "GENERAL.have_account_login" | translate }}</small>
+          </a>
+        </div>
+  
+        <div class=" col-6 text-right">
+          <a routerLinkActive="active" class="text-white"
+          [routerLink]="['/auth/register']">
+            <small> {{ "GENERAL.create_account" | translate }}</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

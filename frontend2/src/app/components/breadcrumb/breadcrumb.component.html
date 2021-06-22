@@ -1,0 +1,32 @@
+<div class="header">
+  <div [class.container-fluid]="fluid">
+    <div class="header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-7 col-8">
+          <h6 class=" h2 d-inline-block mb-0  mr-md-4" *ngIf="page.title" [class.text-white]="page.breadcrumbInverted">{{ page.title | translate }}</h6>
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block"
+          >
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" [routerLink]="[dashboard]" [class.text-white]="page.breadcrumbInverted"> <i class=" fas fa-home"> </i> </a>
+              </li>
+
+              <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item" [class.text-white]="page.breadcrumbInverted">
+                <a [routerLink]="breadcrumb.url" [class.text-white]="page.breadcrumbInverted">
+                  {{ breadcrumb.title | translate }}
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class=" col-lg-5 col-4 text-right">
+          <!-- Later on to add buttons via layout service -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

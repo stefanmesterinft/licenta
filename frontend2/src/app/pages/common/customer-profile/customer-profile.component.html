@@ -1,0 +1,334 @@
+<div class=" header pb-6 d-flex align-items-center my--6"
+  style="min-height: 400px;">
+  <span class=" mask bg-secondary opacity-8"> </span>
+
+  <div class=" container-fluid d-flex align-items-center" *ngIf="authService.getCustomerId()===profile.id">
+    <div class=" row">
+      <div class=" col-12">
+        <h3 class=" display-2 text-white">Hello {{profile.firstName}}</h3>
+        <p class=" text-white mt-0 mb-5">
+          This is your organization profile page. You can update your organization information from here any time you want.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class=" container-fluid d-flex align-items-center" *ngIf="authService.getCustomerId()!==profile.id">
+    <div class=" row">
+      <div class=" col-12">
+        <h3 class=" display-2 text-white">{{profile.name}}</h3>
+        <p class=" text-white mb-0"><strong>EIN</strong> {{profile.ein}}</p>
+        <p class=" text-white" *ngIf="profile.type === CUSTOMERTYPE.TESTER"><strong>CLIA</strong> {{profile.clia}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col-xl-4 order-xl-2 d-flex flex-column">
+      <div class=" card card-profile">
+        <img alt="Cover photo" class=" card-img-top"
+          src="assets/img/theme/img-1-1000x600.jpg" />
+
+        <div class=" row justify-content-center">
+          <div class=" col-lg-3 order-lg-2">
+            <div class=" card-profile-image">
+              <a href="javascript:void(0)">
+                <input #avatarUpload type="file" (click)="avatarUpload.value = null"
+                  (change)="uploadImage('avatar', $event)" class="d-none" accept="image/*">
+                <ngx-avatar 
+                  [name]="profile.firstName + ' ' + profile.lastName" 
+                  [src]="profile.avatar" 
+                  [round]="true"
+                  size="140" (clickOnAvatar)="uploadClick(avatarUpload)" [initialsSize]="2">
+                  <i *ngIf="editMode" class="ni ni-cloud-upload-96"></i>
+                </ngx-avatar>
+                <i *ngIf="editMode" class="ni ni-cloud-upload-96 profile-image-upload"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class=" card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class=" d-flex justify-content-between">
+            <h5 class=" h3 mb-0">Members</h5>
+          </div>
+        </div>
+
+        <div class=" card-body">
+          <ul class=" list-group list-group-flush list my--3">
+            <li class=" list-group-item px-0">
+              <div class=" row align-items-center" *ngFor="let member of members">
+                <div class=" col-auto">
+                  <div class=" media align-items-center py-2">
+                    <ngx-avatar class="mr-2" 
+                      [name]="member.firstName + '' +  member.lastName " 
+                      [src]="member.avatar"
+                      [round]="true" 
+                      [initialsSize]="2"></ngx-avatar>
+                  </div>
+                </div>
+
+                <div class=" col ml--2">
+                  <h4 class=" mb-0 d-block">
+                    {{member.firstName}} {{member.lastName}}
+                  </h4>
+                  <small *ngFor="let role of member.roles" class="mr-1">
+                    {{ 'ROLE.' + role | translate }}
+                  </small>
+                </div>
+
+                <div class=" col-auto">
+                  <button class=" btn btn-sm btn-icon btn-primary" type="button" [routerLink]="[dashboard.replace('dashboard', 'profile'), member.id]">
+                    <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card flex-grow-1" *ngIf="profile.type === CUSTOMERTYPE.TESTER">
+        <div class="card-header d-flex">
+          <span>PDF Introduction</span>
+          <button *ngIf="(authService.getCustomerId()===profile.id || authService.hasRole('ADMIN'))"
+           (click)="saveIntroduction()" class="ml-auto btn btn-sm btn-primary">
+            Save changes
+          </button>
+        </div>
+        <div class="card-body d-flex flex-column">
+          
+          <textarea maxlength="600" [readonly] = "!(authService.getCustomerId()===profile.id || authService.hasRole('ADMIN'))"
+          [(ngModel)]="testIntroduction" class="w-100 flex-grow-1 resize-none">
+          
+          </textarea>
+          <div class="ml-auto">
+            <span [ngStyle]="{'color':testIntroduction.length>600?'red':'black'}">{{testIntroduction.length}}/600</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-8 order-xl-1">
+      <div class=" card">
+        <form [formGroup]="profileForm" autocomplete="off" (ngSubmit)="onSubmit()">
+          <div class=" card-header">
+            <div class=" row align-items-center">
+              <div class=" col-8">
+                <h3 class=" mb-0" *ngIf="editMode">Edit profile</h3>
+                <h3 class=" mb-0" *ngIf="!editMode && profile.id===authService.getCustomerId()">Your organization profile</h3>
+                <h3 class=" mb-0" *ngIf="profile.id!==authService.getCustomerId()">Organization profile</h3>
+              </div>
+
+              <div class=" col-4 text-right">
+                <button class="btn btn-sm btn-primary" type="button" (click)="edit()"
+                  *ngIf="!editMode && (authService.getCustomerId()===profile.id || authService.hasRole('ADMIN'))">
+                  Edit organization profile
+                </button>
+                <button type="submit" class=" btn btn-sm btn-primary" *ngIf="editMode">
+                  Save changes
+                </button>
+                <button type="button" class=" btn btn-sm btn-neutral" (click)="cancel()" *ngIf="editMode">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class=" card-body">
+            <h6 class=" heading-small text-muted mb-4">Organization information</h6>
+            <div>
+              <div class=" row">
+                <div class=" col-lg-12">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-first-name">
+                      Name
+                    </label>
+
+                    <input class=" form-control" id="input-name" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.name.errors"
+                      formControlName="name" />
+
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                      <div *ngIf="f.name.errors.required">
+                        This field is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-ein">
+                      EIN
+                    </label>
+
+                    <input class=" form-control" id="input-ein" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.ein.errors"
+                      formControlName="ein" />
+                    <div *ngIf="submitted && f.ein.errors" class="invalid-feedback">
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6" *ngIf="profile.type === CUSTOMERTYPE.TESTER">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-clia">
+                      CLIA
+                    </label>
+
+                    <input class=" form-control" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.clia.errors"
+                      formControlName="clia" />
+                    <div *ngIf="submitted && f.clia.errors" class="invalid-feedback">
+                      <div *ngIf="f.clia.errors.required">
+                        THis field is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class=" my-4" />
+
+            <h6 class=" heading-small text-muted mb-4">Contact information</h6>
+
+            <div>
+              <div class=" row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-email">
+                      Email address
+                    </label>
+
+                    <input class=" form-control" id="input-email" type="email" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.email.errors"
+                      formControlName="email" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">
+                        Email address is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-phone">
+                      Phone
+                    </label>
+
+                    <input class=" form-control" id="input-phone" type="phone" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.phone.errors"
+                      formControlName="phone" />
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.phone.errors.required">
+                        Phone is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class=" row">
+                <div class=" col-md-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-address">
+                      Address Line 1
+                    </label>
+
+                    <input class=" form-control" id="input-address1" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.address1.errors"
+                      formControlName="address1" />
+                    <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
+                      <div *ngIf="f.address1.errors.required">
+                        Address is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-md-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-address">
+                      Address Line 2
+                    </label>
+
+                    <input class=" form-control" id="input-address2" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.address2.errors"
+                      formControlName="address2" />
+                    <div *ngIf="submitted && f.address2.errors" class="invalid-feedback">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class=" row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-city">
+                      City
+                    </label>
+
+                    <input class=" form-control" id="input-city" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.city.errors"
+                      formControlName="city" />
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                      <div *ngIf="f.city.errors.required">
+                        City is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-state">
+                      State
+                    </label>
+
+                    <select formControlName="state" class="form-control" *ngIf="editMode" data-toggle="select" >
+                      <option value=""> Select your state </option>
+                      <option *ngFor="let state of states" [value]="state.value">{{state.label}}</option>  
+                    </select>
+                    <input class=" form-control" id="input-state" type="text" readonly *ngIf="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.state.errors"
+                      formControlName="state" />
+                    <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                      <div *ngIf="f.state.errors.required">
+                        State is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-postal-code">
+                      Postal code
+                    </label>
+
+                    <input class=" form-control" id="input-postal-code" type="text" [readonly]="!editMode"
+                      [class.form-control-flush]="!editMode" [class.is-invalid]="submitted && f.postalCode.errors"
+                      formControlName="postalCode" />
+                    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                      <div *ngIf="f.postalCode.errors.required">
+                        Postal code is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

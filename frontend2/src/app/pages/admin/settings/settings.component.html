@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+
+      </form>
+
+    </div>
+
+    <div class=" table-responsive">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Name</th>
+
+            <th scope="col">Value</th>
+
+            <th scope="col">Description</th>
+
+            <!-- <th scope="col"></th> -->
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="4" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(settings$ | async) as settings; else loading">
+            <tr>
+              <td colspan="4" class="text-center" *ngIf="settings.length === 0"> No settings available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let setting of settings | paginate: settingsPager; trackBy: trackById;">
+              <th scope="row">
+                <div class="align-items-center">
+                  {{setting.name}}
+                </div>
+              </th>
+
+              <th scope="row">
+                <div class="align-items-center">
+                  {{setting.description}}
+                </div>
+              </th>
+
+              <th scope="row">
+               
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                    </div>
+                    <div *ngIf="setting.options; else settingInput">
+                      <select class=" form-control" [ngModel]="setting.value" (ngModelChange)="changeOption(setting,$event)"  data-toggle="select" id="selectr" >
+                        <option *ngFor="let subtype of setting.options" [value]="subtype" > {{subtype}} </option>
+                      </select>
+                    </div>
+                    <ng-template #settingInput>
+                      <input class="form-control" [ngModel]="setting.value" (ngModelChange)="changeOption(setting,$event)" >
+                    </ng-template>
+                  
+                </div>
+
+              </th>
+
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+  </div>
+</div>

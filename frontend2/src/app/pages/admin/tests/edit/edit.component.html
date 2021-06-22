@@ -1,0 +1,48 @@
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Edit test</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span class="text-dark" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="testForm" autocomplete="off" (ngSubmit)="update()">
+        <div class="form-group mb-3" >
+            <div class="input-group input-group-alternative" [class.is-invalid]="submitted && f.temperature.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-tablet-button"></i></span>
+                </div>
+                <input formControlName="temperature" type="number" step=".01" lang="en" class="form-control" placeholder="Temperature"/>
+            </div>
+            <div *ngIf="submitted && f.temperature.errors" class="invalid-feedback">
+                <div *ngIf="f.temperature.errors.required">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group input-group-alternative" [class.is-invalid]="submitted && f.result.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-tablet-button"></i></span>
+                </div>
+                <select class=" form-control" formControlName="result">
+                    <option value=""> Select test result </option>
+
+                    <option [value]="result.value" *ngFor="let result of results"> {{result.label}} </option>
+                    </select>
+            </div>
+            <div *ngIf="submitted && f.result.errors" class="invalid-feedback">
+                <div *ngIf="f.result.errors.required">
+                    This field is required.
+                </div>
+                </div>
+        </div>
+        
+        <div class="text-center">
+            <button type="button" class="btn btn-primary my-4" type="submit">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

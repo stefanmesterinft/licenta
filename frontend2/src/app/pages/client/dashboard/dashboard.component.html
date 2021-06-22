@@ -1,0 +1,469 @@
+<div class="container-fluid">
+  <div class=" row">
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-info border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Pending tests
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white"> 
+                {{user.totals?.pending || 0}} / {{user.totals?.total_tests || 0}} <small class="text-xs"> tested </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="danger" [value]="user.totals?.pending && user.totals?.total_tests ? user.totals?.pending/user.totals?.total_tests*100 : 0"> </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+              [routerLink]="['/client/tests']"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-danger border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Positive tests
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white"> 
+                {{user.totals?.positive || 0}} / {{user.totals?.total_tests || 0}} <small class="text-xs"> tested </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success" [value]="user.totals?.positive && user.totals?.total_tests ? user.totals?.positive/user.totals?.total_tests*100 : 0"> </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+              [routerLink]="['/client/tests']"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-success border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Negative tests
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white"> 
+                {{user.totals?.negative || 0}} / {{user.totals?.total_tests || 0}} <small class="text-xs"> tested </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="warning"  [value]="user.totals?.negative && user.totals?.total_tests ? user.totals?.negative/user.totals?.total_tests*100 : 0"> </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+              [routerLink]="['/client/tests']"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-warning border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Retest tests
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white"> 
+                {{user.totals?.retest || 0}} / {{user.totals?.total_tests || 0}} <small class="text-xs"> tested </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success" [value]="user.totals?.retest && user.totals?.total_tests ? user.totals?.retest/user.totals?.total_tests*100 : 0"> </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+              [routerLink]="['/client/tests']"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class=" row">
+    <div class=" col-xl-8">
+      <div class=" card">
+        <div class=" card-header border-0">
+          <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+            <div class="row">
+              <!-- job -->
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                  </div>
+
+                  <input [(ngModel)]="selected.job"
+                  [ngModelOptions]="{ standalone: true }"
+                  [typeahead]="jobs$"
+                  [typeaheadAsync]="true"
+                  (typeaheadOnSelect)="selectMatch('job',$event)"
+                  typeaheadOptionField="name"
+                  (input)="clearIfEmpty('job')"
+                  class="form-control" placeholder="Job">
+                </div>
+              </div>
+              
+              <!-- customer -->
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                  </div>
+    
+                  <input [(ngModel)]="selected.customer"
+                  [ngModelOptions]="{ standalone: true }"
+                  [typeahead]="customers$"
+                  [typeaheadAsync]="true"
+                  (typeaheadOnSelect)="selectMatch('customer',$event)"
+                  typeaheadOptionField="name"
+                  (input)="clearIfEmpty('customer')"
+                  class="form-control" placeholder="Company">
+                </div>
+              </div>
+    
+              <!-- tester -->
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-ambulance"></i></span>
+                  </div>
+    
+                  <input [(ngModel)]="selected.tester"
+                  [ngModelOptions]="{ standalone: true }"
+                  typeaheadOptionField="name"
+                  [typeahead]="testers$"
+                  [typeaheadAsync]="true"
+                  (typeaheadOnSelect)="selectMatch('tester',$event)"
+    
+                  (input)="clearIfEmpty('tester')"
+                  class="form-control" placeholder="Tester">
+                </div>
+              </div>
+              <!-- patient -->
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                  </div>
+                 
+                  <input [(ngModel)]="selected.patient"
+                  [ngModelOptions]="{ standalone: true }"
+                  [typeahead]="patients$"
+                  [typeaheadAsync]="true"
+                  (typeaheadOnSelect)="selectMatch('patient',$event)"
+                  typeaheadOptionField="name"
+                  (input)="clearIfEmpty('patient')"
+                  class="form-control" placeholder="Patient">
+                </div>
+              </div>
+              
+    
+              
+            <!-- result -->
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-tag"></i></span>
+                  </div>
+                  <!-- [typeaheadItemTemplate]="customItemTemplate" -->
+                  <select class=" form-control" (change)="selectMatch('result',$event)" name="result">
+                    <option value=""> Select test result </option>
+    
+                    <option [value]="result.value" *ngFor="let result of results"> {{result.label}} </option>
+                  </select>
+               
+                </div>
+              </div>
+    
+    
+              
+            <!-- temperature -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-ruler-pencil"></i></span>
+                </div>
+                <input name="temperature" class="form-control" [(ngModel)]="filters.temperature"
+                placeholder="Temperature" type="text" />
+              </div>
+            </div>
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                  </div>
+                  <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.startDate"
+                    name="startDate" class="form-control" placeholder="From date" type="text">
+                </div>
+              </div>
+    
+              <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                  </div>
+                  <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.endDate"
+                    name="endDate" class="form-control" placeholder="Until date" type="text">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class=" table-responsive table-hover sticky-last-column">
+          <table class=" table align-items-center table-flush">
+            <thead class=" thead-light">
+              <tr>
+                <th scope="col">Code</th>
+    
+                <th scope="col">Testing Company</th>
+    
+                <th scope="col">Testers</th>
+    
+                <th scope="col">Used Devices</th>
+    
+                <th scope="col">Patient</th>
+    
+                <th scope="col">Temperature</th>
+    
+                <th scope="col">Result</th>
+    
+                <th scope="col">Updated At</th>
+    
+                <th scope="col">Created At</th>
+                
+                <th scope="col"></th>
+              </tr>
+            </thead>
+    
+            <tbody class=" list">
+              <ng-template #loading>
+                <tr>
+                  <td colspan="10" class="text-center"> Loading. Please wait...</td>
+                </tr>
+              </ng-template>
+    
+              <ng-container *ngIf="(tests$ | async) as tests; else loading">
+                <tr>
+                  <td colspan="10" class="text-center" *ngIf="tests.length === 0"> No tests available yet. Please try
+                    again later.</td>
+                </tr>
+                <tr *ngFor="let test of tests | paginate: testsPager; trackBy: trackById;">
+                  <th scope="row">
+                    <div class="align-items-center" *ngIf="test.code">
+                      <img [src]="renderBarcode(test)" /><br />
+                      {{test.code}}
+                    </div>
+                  </th>
+    
+                  <td class="bg-y">
+                    <div class=" media align-items-center" *ngIf="test.customer" [routerLink]="['/', 'client', 'customers', 'profile', test.customer.id]">
+                      <ngx-avatar class="mr-2" 
+                        [name]="test.customer.name" 
+                        [src]="test.customer.avatar"
+                        [round]="true" 
+                        [initialsSize]="2"></ngx-avatar>
+    
+                      <div class=" media-body d-flex flex-column">
+                        <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                          {{test.customer.name}}
+                        </span>
+                        <small class="text-muted">{{test.customer.email}}</small>
+                      </div>
+                    </div>
+                  </td>
+    
+                  <td class="bg-y">
+                    <div class="avatar-group" *ngIf="test.testers && test.testers.length > 0">
+                      <a href="javascript:void(0)"
+                        *ngFor="let tester of test.testers"
+                        [routerLink]="['/', 'admin', 'profile', tester.id]"
+                        [tooltip]="tester.firstName + ' ' + tester.lastName"
+                        placement="top" 
+                        class=" avatar rounded-circle" >
+                        <ngx-avatar 
+                            [name]="tester.firstName + ' ' + tester.lastName" 
+                            [src]="tester.avatar" 
+                            [round]="false"
+                            [initialsSize]="2"></ngx-avatar>
+                      </a>
+                    </div>
+                  </td>
+    
+                  <td class="bg-y">
+                    <div class="avatar-group" *ngIf="test.devices && test.devices.length > 0">
+                      <a href="javascript:void(0)"
+                        *ngFor="let device of test.devices"
+                        [routerLink]="['/', 'admin', 'device', device.id]"
+                        [tooltip]="(device.type || 'Unknown') + ' [' + device.identifier + ']'"
+                        placement="top" 
+                        class=" avatar rounded-circle" >
+                        <ngx-avatar 
+                            [value]="(device.type || 'Unknown')" 
+                            [round]="false"
+                            [textSizeRatio]="8"
+                            [initialsSize]="2"></ngx-avatar>
+                      </a>
+                    </div>
+                  </td>
+    
+                  <td class="bg-y">
+                    <div class=" media align-items-center" *ngIf="test.patient" [routerLink]="['/', 'admin', 'profile', test.patient.id]">
+                      <ngx-avatar class="mr-2" 
+                        [name]="test.patient.firstName + '' +  test.patient.lastName " 
+                        [src]="test.patient.avatar"
+                        [round]="true" 
+                        [initialsSize]="2"></ngx-avatar>
+    
+                      <div class=" media-body d-flex flex-column">
+                        <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                          {{test.patient.firstName}} {{test.patient.lastName}}
+                        </span>
+                        <small class="text-muted">{{test.patient.email}}</small>
+                      </div>
+                    </div>
+                  </td>
+    
+                  <td class="text-center">
+                    <span *ngIf="test.temperature">{{test.temperature}}°F</span>
+                  </td>
+    
+                  <td class="text-center" >
+                    <span class=" badge badge-dot mr-4" [tooltip]="test.reason">
+                      <i [ngClass]="{ 
+                        'bg-dark': !test.result,
+                        'bg-yellow': test.result === 'RETEST',
+                        'bg-success': test.result === 'NEGATIVE',
+                        'bg-danger': test.result === 'POSITIVE'
+                      }"> </i>
+    
+                      <span class=" status"> {{test.result || 'Pending'}} </span>
+                    </span>
+                  </td>
+    
+                  <td class="text-center">
+                    <span>{{test.updatedAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+                  </td>
+    
+                  <td class="text-center">
+                    <span>{{test.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+                  </td>
+                  <td>
+                    <div dropdown class="dropdown no-caret" container="body">
+                  <a id="button-basic" dropdownToggle role="button"
+                    class="btn btn-sm btn-icon-only text-light dropdown-toggle" aria-controls="dropdown-basic">
+                    <i class=" fas fa-ellipsis-v"> </i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+
+                    <button [disabled]="!test.result" class="dropdown-item" (click)="downloadPDF(test)">
+                      Export PDF
+                    </button>
+                    </div>
+                   </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+      </div>
+    </div>
+
+    <div class=" col-xl-4">
+      <div class=" card widget-calendar overflow-hidden">
+        <div class=" card-header">
+          <div class=" row align-items-center">
+            <div class=" col-8"><h5 class=" h3 mb-0">World view</h5></div>
+
+            
+          </div>
+        </div>
+        <app-vector-map-component [data]="totalByStates" [countField]="'total_tests'" mapClass='minimap'></app-vector-map-component>
+        <div class=" card-body">
+
+          <ul class=" list-group list-group-flush list my--3">
+            <li class=" list-group-item px-0" *ngFor="let countryState of totalByStates">
+              <div class=" row align-items-center">
+                <div class=" col-auto">
+                  <img
+                    alt="Country flag"
+                    src="assets/img/icons/flags/shiny/{{countryState.country_iso || '_unknown'}}.png"
+                  />
+                </div>
+
+                <div class="col">
+                  <h5 class=" mb-0">{{countryState.country || 'Unknown'}}</h5>
+                  <h4 class=" mb-0">{{countryState.state}}</h4>
+                </div>
+
+                <div class="col">
+                  <div class=" mb-0"><small><strong>{{countryState.total_tests}} </strong> tests made </small></div>
+                  <div class=" mb-0"><small><strong>{{countryState.pending}} </strong> pending </small></div>
+                </div>
+
+                <div class="col">
+                  <div class=" mb-0"><small><strong>{{countryState.positive}} </strong> positive </small></div>
+                  <div class=" mb-0"><small><strong>{{countryState.negative}} </strong> negative </small></div>
+                </div>
+                
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

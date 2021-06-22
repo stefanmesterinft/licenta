@@ -1,0 +1,16 @@
+:host {
+    position: relative;
+    width: 100%;
+    display: block;
+
+    .header {
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        width: 100%; 
+    }
+
+    .breadcrumb-item.text-white::before{
+        color: #fff;
+    }
+}

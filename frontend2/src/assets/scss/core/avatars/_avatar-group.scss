@@ -1,0 +1,45 @@
+//
+// Avatar group
+//
+
+// General styles
+
+.avatar-group {
+  .avatar {
+    position: relative;
+    z-index: 2;
+    border: 2px solid $card-bg;
+    transition: $transition-base; 
+
+    &:hover {
+      z-index: 3;
+      transform: translateY(-5px);
+    }
+  }
+
+  .avatar + .avatar {
+    margin-left: -1rem;
+  }
+}
+
+.avatar-group {
+  > ngx-avatar {
+    position: relative;
+    z-index: 2;
+    transition: $transition-base; 
+
+    .avatar-content {
+      border: inset 2px solid $card-bg;
+    }
+    
+    &:hover {
+      z-index: 3;
+      transform: translateY(-5px);
+    }
+  }
+
+  ngx-avatar +  ngx-avatar {
+    margin-left: -1rem;
+  }
+}
+

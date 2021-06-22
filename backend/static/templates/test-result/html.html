@@ -1,0 +1,168 @@
+<html style="zoom:0.58">
+    <body style="margin-left: 100px; margin-right: 100px; margin-bottom:50px">
+        <div>
+            {% if not test.customer.avatar %}
+            <img style="display: block; height:75px; width:auto;"
+                src="assets/img/brand/primary-inline.png" />
+            {% else %}
+            <img style="display: block; height:75px; width:auto;" src="{{ avatar }}" />
+            {%endif%}
+        </div>
+
+        <h2>Patient Discharge Instructions After COVID-19 Rapid Test</h2>
+        <div class="break">
+            <h3 style="margin: 0">{{ test.customer.name }}</h3>
+
+            <h3 style="margin-bottom: 0">Patient: 
+                {% if test.patient.firstName%}
+                    {{ test.patient.firstName }} 
+                {%endif%}
+                
+                {% if  test.patient.middleName%}
+                    {{ test.patient.middleName }}
+                {%endif%}
+
+                {% if test.patient.lastName %}
+                    {{ test.patient.lastName }}
+                {%endif%}
+            </h3>
+            <h3 style="margin-top: 0"> Date of Birth: {{ test.patient.dateOfBirth | date('m/d/Y')  }}</h3>
+
+            <h3 style="margin-bottom: 0">Test created date: {{ dateResult }}</h3>
+            <h3 style="margin-top: 0">Test created time: {{timeResult}} EST</h3>
+        </div>
+        <div class="break">
+            {% if not test.customer.test_introduction %}
+            <p>
+                You had Zest’s COVID-19 Antigen Rapid Test today developed by an
+                authorized Zest Medco tester listed above. This test enables a rapid
+                diagnosis of SARS-CoV-2 (COVID-19, Coronavirus) infection. This test has
+                been authorized by the FDA under an Emergency Use Authorization (EUA)
+                for use by authorized CLIA Waived licensed businesses. This technology
+                boasts one of the highest sensitivities (likelihood that a negative test is truly
+                negative) currently available on the market. If you have any questions or
+                concerns regarding Zest’s technology, please visit our website at
+                <a href="https://www.zest.com/">zest.com</a>.
+            </p>
+            {%endif%}
+            {% if test.customer.test_introduction %}
+            <p>
+                {{test.customer.test_introduction}}
+            </p>
+            {%endif%}
+        </div>
+        <div class="break">
+            <!--  simptome -->
+            {% if test.temperature >= 99 %}
+
+            <p><strong>You had symptoms (fever, cough, shortness of breath, etc…) when
+                    you were tested</strong></p>
+            <!-- negativ -->
+            {% if test.result == ResultType.NEGATIVE %}
+            <p><strong>Your test was NEGATIVE - COVID-19 was NOT DETECTED, but given
+                    your symptoms you may still be infected with COVID-19 or some
+                    other illness. We suggest you follow up with your doctor for a Flu A/B
+                    test and/or COVID-19 PCR test to further diagnose your illness.</strong> You
+                must continue to isolate yourself at home, away from others, and should
+                consider yourself to be infected until your final diagnosis is available and
+                your health care provider gives you further instructions. If COVID-19 is still
+                suspected, based on exposure history or present symptoms, re-testing
+                should be considered in consultation with public health authorities. A
+                negative result does not rule out the possibility of COVID-19 and should not
+                be used as the sole basis for treatment or patient management decisions.
+            </p>
+            {% endif %}
+            <!-- pozitiv -->
+            {% if test.result == ResultType.POZITIVE %}
+            <p>
+                <strong>Your test was POSITIVE - COVID-19 DETECTED, meaning you have an active
+                    COVID-19 infection and you are likely to spread COVID-19.</strong> Follow your health care
+                provider’s instructions and the latest guidance from the CDC and State Department of
+                Public Health. In addition to following your health care provider’s direction - you <strong>MUST
+                    isolate from others for at least 3 days AFTER your symptoms go away.</strong> Follow
+                CDC and State Department of Public Health’s latest guidance on steps to take after
+                your symptoms are gone. Discuss your return to work options with your employer.
+                Please inform anyone you may have come in contact with in the past 14 days of your
+                positive COVID-19 test results.
+            </p>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="break">
+            <!-- fara simptome -->
+            {% if test.temperature < 99 %}
+            <p></strong>You were without symptoms when you were tested:</strong></p>
+
+            <!-- negativ fara simptome -->
+            {% if test.result == ResultType.NEGATIVE %}
+            <p>Your test was NEGATIVE - COVID-19 was NOT DETECTED, so this suggests you
+                may not have an active infection at this time. You must still continue to wear a mask and
+                practice social distancing. Symptoms may not be noticed for up to 2 weeks after
+                exposure to COVID-19. If symptoms begin to develop, please quarantine at home and
+                notify your healthcare provider for additional testing. A negative result does not rule out
+                the possibility of COVID-19 and should not be used as the sole basis for treatment or
+                patient management decisions.</p>
+            {% endif %}
+
+            <!-- pozitiv cu simptome -->
+            {% if test.result == ResultType.POSITIVE %}
+            <p><strong>Your test was POSITIVE - COVID-19 WAS DETECTED, meaning you are actively
+                    infected with COVID-19 and are still able to spread COVID-19 even though no
+                    symptoms are present. You MUST isolate yourself from others for 14 days after
+                    the test was performed</strong>. Follow your health care provider’s instructions and the latest
+                guidance from the CDC and State Department of Public Health on steps to take after
+                your isolation. Inform anyone you may have come in contact with in the past 14 days of
+                your test result. Please contact your healthcare provider if you develop symptoms or
+                symptoms worsen.</p>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="break">
+            {% if test.result == ResultType.RETEST or not test.result %}
+            <p><strong>Your test was INVALID - Your test results could not be interpreted as Positive or
+                    Negative for COVID-19.</strong> A re-test is necessary to determine if you are or are not
+                infected with COVID-19. Please contact us immediately to perform this re-test.
+            </p>
+            {%endif%}
+        </div>
+        <div class="break">
+            <p><strong><u>Follow Up Appointment:</u></strong></p>
+
+            <p><strong>If you tested positive for the COVID-19 rapid testing</strong>, please schedule a follow up
+                appointment with your healthcare provider. Immediately seek medical attention if
+                symptoms worsen. If you have a medical emergency, immediately call 911 and notify
+                the EMS personnel that you have tested positive for COVID-19.</p>
+            <p><strong>If you tested negative for the COVID-19 rapid testing</strong>, but symptoms develop, please
+                set up an appointment with your healthcare provider.</p>
+        </div>
+        <div class="break">
+            <p><strong><u>The FDA and CDC recommend that:</u></strong></p>
+            <ul>
+                <li>Be alert for symptoms such as a fever, shortness of breath, cough, or other
+                    symptoms associated with COVID-19.</li>
+                <li>Everyone should wash their hands with soap and water for at least 20 seconds
+                    as often as possible, particularly after being in a public place.</li>
+                <li>Use hand sanitizer that contains at least 60% alcohol when soap and water are
+                    not readily available.</li>
+                <li>Wear a face mask that covers your mouth and nose when you are around others</li>
+                <li>Practice social distancing by staying at least 6 feet away from others.</li>
+            </ul>
+        </div>
+        <div class="break">
+            <p><strong><u>Additional Information on COVID-19 can be found at:</u></strong></p>
+            <ul>
+                <li>The CDC website at <a href="https://www.cdc.gov/">www.cdc.gov</a></li>
+            </ul>
+            <br /><br />
+            <strong>Thank you for choosing an authorized Zest MedCo tester for your testing needs.</strong><br /><br />
+        </div>
+        <div class="break">
+            <h3 style="margin: 0">{{ test.customer.name }}</h3>
+            <h3 style="margin: 0">{{ test.customer.address1 }}</h3>
+            <h3 style="margin: 0">{{ test.customer.city }} - {{ test.customer.state }} - {{ test.customer.postalCode }}</h3>
+            <h3 style="margin: 0">{{ test.customer.phone }}</h3>
+        </div>
+    </body>
+
+</html>

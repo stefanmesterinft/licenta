@@ -1,0 +1,17 @@
+
+<div class="container-bg bg-primary vh-100">
+    <nav
+    id="navbar-main"
+    class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light"
+    >
+    <div class="container" >
+      <a class="navbar-brand" [routerLink]="['/admin/dashboard']">
+        <img src="assets/img/brand/logo.png" />
+      </a>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+  <div class="container fixed-bottom" >
+    <app-footer></app-footer>
+  </div>
+</div>

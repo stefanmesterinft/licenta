@@ -1,0 +1,170 @@
+// {
+//   "ROLE": {
+//     "USER": "Membru",
+//     "SPECIALIST": "Consilier specialist",
+//     "COORDINATOR": "Coordonator specialisti",
+//     "CREATOR": "Creator de conținut",
+//     "EDITOR": "Editor",
+//     "ADMIN": "Administrator"
+//   },
+//   "ANSWERTYPE": {
+//     "DATETIME": "Datetime",
+//     "NUMBER": "Număr",
+//     "TEXT": "Text",
+//     "DROPDOWN": "Scapă jos",
+//     "RADIO": "Radio",
+//     "CHECKBOX": "Caseta de bifat"
+//   },
+//   "TITLES": {
+//     "PROFESSOR": "Profesor",
+//     "SCHOOL_COUNSELOR": "Consilier școlar",
+//     "PSYCHOTHERAPIST": "Psihoterapeut",
+//     "STUDENT": "Elev/Student"
+//   },
+//   "REGISTER_REFERERS": {
+//     "FB": "Facebook",
+//     "GOOGLE": "Google",
+//     "TRAINER": "Antrenor",
+//     "COLLEAGUE": "A fost recomandat de un coleg",
+//     "ISJ": "Inspectoratul Școlar Județean",
+//     "MEMBERS": "Mesaj pentru membrii echipei",
+//     "EMAIL": "Mesaj primit prin e-mail"
+//   },
+//   "success": {
+//     "account_has_been_registered": "Contul dvs. a fost creat. Vă rugăm să confirmați adresa de e-mail pentru a vă autentifica. Un e-mail de verificare a fost trimis la adresa dvs. de e-mail.",
+//     "account_has_been_created": "Contul a fost creat.",
+//     "account_has_been_edited": "Contul a fost modificat.",
+//     "checked_in": "Ați verificat cu succes această unitate",
+//     "checked_out": "Ați verificat cu succes această unitate",
+//     "question_has_been_created": "Întrebarea a fost creată.",
+//     "question_has_been_edited": "Întrebarea a fost editată.",
+//     "forgot_password_has_been_sent": "Dacă există un cont care utilizează această adresă de e-mail, veți primi un mesaj cu instrucțiunile despre cum să vă resetați parola. Vă rugăm să verificați căsuța de e-mail.",
+//     "resend_verification_has_been_sent": "E-mailul de verificare a fost trimis la adresa dvs. de e-mail. Vă rugăm să verificați căsuța de e-mail.",
+//     "reset_password_complete": "Parola dvs. a fost schimbată. Acum vă puteți conecta cu noua parolă.",
+//     "set_password_complete": "Parola dvs. a fost setată. Acum vă puteți conecta cu noua parolă.",
+//     "message_sent": "mesajul dumneavostră a fost trimis cu succes",
+//     "settings_saved": "setarile tale au fost salvate",
+//     "sms_code_sent": " V-am trimis și SMS-uri cu codul de autentificare."
+//   },
+//   "error": {
+//     "rules": {
+//       "phone_must_be_a_valid_phone_number": "Câmpul de telefon trebuie să fie un număr de telefon valid",
+//       "postal_code_must_be_a_postal_code": "Câmpul cod poștal trebuie să fie un cod poștal valid",
+//       "password_is_not_a_valid_password": "Parola trebuie să aibă minimum 8 caractere, folosind litere, cifre și oricare dintre următoarele simboluri! @ # $% ^ & *",
+//       "email_must_be_an_email": "Adresa de email nu este validă",
+//       "all_answers_elements_must_be_unique": "Trebuie să inserați răspunsuri unice",
+//       "answers_should_not_be_empty": "Lista de răspunsuri nu trebuie să fie goală",
+//       "answers_must_be_an_array": "Trebuie să furnizați o listă de răspunsuri"
+//     },
+//     "fields": {
+//       "required": "Acest câmp este obligatoriu",
+//       "passwords_match": "Acest câmp trebuie să se potrivească cu câmpul de parolă.",
+//       "min_length": "Lungimea minimă a parolei este de {{length}} caractere.",
+//       "valid_email": "Vă rugăm să completați o adresă de e-mail validă.",
+//       "valid_sms_code": "Este necesar un cod SMS valid din 6 cifre."
+//     },
+//     "unique": {
+//       "user": {
+//         "email": "Adresa de email este deja in folosinta",
+//         "socialSecurityNumber": "Numărul de securitate socială deja utilizat"
+//       }
+//     },
+//     "forgot_password": {
+//       "email_sent_recently": "O solicitare de parolă a fost deja solicitată în ultimele 5 minute pentru această adresă de e-mail. Vă rugăm să încercați din nou peste 5 minute.",
+//       "token_not_valid": "Jetonul de resetare a parolei nu este valid.",
+//       "no_valid_token_can_be_created": "Nu poate fi creat niciun indicativ valid. Vă rugăm să încercați din nou mai târziu."
+//     },
+//     "email_verification": {
+//       "email_sent_recently": "Un e-mail de verificare a fost deja solicitat în ultimele 5 minute pentru această adresă de e-mail. Vă rugăm să încercați din nou peste 5 minute.",
+//       "token_not_valid": "Jetonul de verificare prin e-mail nu este valid.",
+//       "no_valid_token_can_be_created": "Nu poate fi creat niciun indicativ valid. Vă rugăm să încercați din nou mai târziu."
+//     },
+//     "phone_verification": {
+//       "sms_sent_recently": "Un SMS de verificare a fost deja solicitat în ultimele 5 minute pentru acest număr de telefon. Vă rugăm să încercați din nou peste 5 minute.",
+//       "no_valid_token_can_be_created": "Un cod SMS valid nu a putut fi obținut. Asigurați-vă că numărul dvs. de telefon este corect și încercați din nou"
+//     },
+//     "login": {
+//       "email_not_confirmed": "Nu v-ați confirmat adresa de e-mail. <a href='#/auth/email/resend'>Faceți clic aici</a> pentru a retrimite e-mailul de verificare.",
+//       "account_not_confirmed": "Nu v-ați confirmat contul. <a href='#/auth/email/resend'>Faceți clic aici</a> pentru a retrimite e-mailul de verificare sau <a href='#/auth/phone/verify'>faceți clic aici</a> pentru a confirma prin SMS.",
+//       "account_suspended": "Contul tau a fost suspendat. Vă rugăm să contactați administratorul pentru a redobândi accesul"
+//     },
+//     "settings": {
+//       "not_saved": "A apărut o eroare necunoscută la salvarea setărilor"
+//     },
+//     "user_not_found": "Nu se poate conecta, vă rugăm să verificați adresa de e-mail / numărul de telefon și parola și încercați din nou.",
+//     "something_went_wrong": "Ceva n-a mers bine. Vă rugăm să încercați din nou.",
+//     "pdf_introduction_to_long": "Ne pare rău, textul furnizat este lung."
+//   },
+//   "register": {
+//     "create_account": "Creați-vă cont",
+//     "first_name": "Prenume",
+//     "last_name": "Nume",
+//     "city": "Oraș",
+//     "state": "Stat",
+//     "educational_unit": "Unitatea de învățământ",
+//     "phone": "Telefon",
+//     "email": "E-mail",
+//     "password": "Parola",
+//     "confirm_password": "Confirmă parola",
+//     "referer": "De unde ai auzit de PORTAL?",
+//     "become_creator": "Vreau să fiu creator de conținut pe portal (publicarea de resurse și materiale utile)",
+//     "agree_with": "Sunt de acord cu",
+//     "terms_and_cond": "Termeni si condițiile",
+//     "agree_newsletter": "Sunt de acord să primesc periodic informații utile de la echipa portalului prin e-mail",
+//     "title": "Titulatura",
+//     "texts": {
+//       "title": "Creați-vă un cont",
+//       "description": "Pentru a utiliza sistemul nostru va trebui să vă creați un cont oferind câteva informații despre dvs.",
+//       "fill_credentials": "Vă rugăm să completați datele de conectare.",
+//       "fill_userinfo": "Vă rugăm să completați informațiile dvs. personale."
+//     }
+//   },
+//   "login": {
+//     "password": "Parola",
+//     "email_or_phone": "Adresa de e-mail",
+//     "remember_me": "Ține-mă minte",
+//     "sign_in": "Conectare",
+//     "sms_code_verify": "Verifica",
+//     "texts": {
+//       "title": "Bine ați revenit",
+//       "title_verify": "Bine ati venit",
+//       "description": "Pentru a continua, trebuie să furnizați datele de conectare. Vă rugăm să completați câmpurile de mai jos.",
+//       "sms_code_subtitle": "Cod SMS",
+//       "subtitle": "Autentificare"
+//     }
+//   },
+//   "password_recover": {
+//     "email": "Adresa de e-mail",
+//     "recover_password": "Recuperați parola",
+//     "texts": {
+//       "title": "Recuperați parola",
+//       "description": "Vi-ați uitat parola? Nicio problemă, faceți o solicitare de resetare a parolei mai jos și vă vom ajuta.",
+//       "subtitle": "Introduceți adresa de e-mail pentru a primi un e-mail de recuperare a parolei."
+//     }
+//   },
+//   "contact": {
+//     "name": "Numele complet",
+//     "email": "Adresa de e-mail",
+//     "address": "Adresa",
+//     "phone": "Telefon",
+//     "message": "Mesaj",
+//     "send": "Trimite",
+//     "texts": {
+//       "title": "Contactează-ne",
+//       "info_title": "Informații de contact",
+//       "info_phone": "Telefon",
+//       "info_email": "Adresa de e-mail"
+//     }
+//   },
+//   "footer": {
+//     "company": "ZestDP",
+//     "terms_and_cond": "Termeni si conditii",
+//     "privacy": "Politica de Confidențialitate",
+//     "contact": "Contact"
+//   },
+//   "GENERAL": {
+//     "forgot_password": "Vi-ați uitat parola?",
+//     "create_account": "Creați-vă un cont",
+//     "have_account_login": "Aveți un cont? Autentificați-vă aici"
+//   }
+// }

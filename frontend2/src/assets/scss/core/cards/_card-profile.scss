@@ -1,0 +1,108 @@
+//
+// Profile card
+//
+.card-profile {
+  position: relative;
+}
+
+.profile-cover-upload {
+  color: white;
+  transition: all 0.15s ease;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 40px;
+  opacity: 1;
+  cursor: pointer;
+  transition: $transition-base; 
+  text-shadow: 0px 0px 30px rgba(0,0,0,0.5);  
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.card-profile-image {
+  position: relative;
+
+  > img {
+    max-width: 140px;
+    border-radius: $border-radius;
+    border: 3px solid $card-bg;
+    transform: translate(-50%, -50%) scale(1);
+    position: absolute;
+    left: 50%;
+    transition: $transition-base;   
+  }
+
+  ngx-avatar {
+    max-width: 140px;
+    transform: translate(-50%, -50%);
+    transition: $transition-base;
+    position: absolute;
+    left: 50%;
+    
+
+    .avatar-content {
+      border-radius: $border-radius;
+      border: 3px solid $card-bg;
+      transition: $transition-base;
+      transform: scale(1);
+    }
+  }
+
+  .profile-image-upload {
+    color: white;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+    position: absolute;
+    left: 50%;
+    font-size: 40px;
+    opacity: 1;
+    pointer-events: none;
+    transition: $transition-base;   
+    text-shadow: 0px 0px 30px rgba(0,0,0,0.5);  
+  }
+
+  &:hover {
+    > img {
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    ngx-avatar .avatar-content {
+      transform: scale(1.03);
+    }
+
+    .profile-image-upload {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  }
+}
+
+.card-profile-stats {
+  padding: 1rem 0;
+
+  > div {
+    text-align: center;
+    margin-right: 1rem;
+    padding: 0.875rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .heading {
+      font-size: 1.1rem;
+      font-weight: bold;
+      display: block;
+    }
+    .description {
+      font-size: 0.875rem;
+      color: $gray-500;
+    }
+  }
+}
+
+.card-profile-actions {
+  padding: 0.875rem;
+}

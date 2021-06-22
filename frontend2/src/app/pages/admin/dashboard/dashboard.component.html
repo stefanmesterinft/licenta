@@ -1,0 +1,303 @@
+<div class="container-fluid">
+  <div class=" row">
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-info border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Confirmed orders
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white">
+                {{ordersCount?.confirmed || 0}} / {{ordersCount?.total || 0}} <small class="text-xs"> CONFIRMED
+                </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="danger"
+                  [value]="ordersCount?.confirmed && ordersCount?.total ? ordersCount?.confirmed/ordersCount?.total*100 : 0">
+                </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a class=" text-nowrap text-white font-weight-600" href="javascript:void(0)"
+              [routerLink]="['/admin/orders']">
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-danger border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Canceled orders
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white">
+                {{ordersCount?.canceled || 0}} / {{ordersCount?.total || 0}} <small class="text-xs"> CANCELED
+                </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success"
+                [value]="ordersCount?.canceled && ordersCount?.total ? ordersCount?.canceled/ordersCount?.total*100 : 0">
+              </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a class=" text-nowrap text-white font-weight-600" href="javascript:void(0)"
+            [routerLink]="['/admin/orders']">
+            See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-success border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Delivered orders
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white">
+                {{ordersCount?.delivered || 0}} / {{ordersCount?.total || 0}} <small class="text-xs"> DELIVERED
+                  
+                </small>
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="warning"
+                [value]="ordersCount?.delivered && ordersCount?.total ? ordersCount?.delivered/ordersCount?.total*100 : 0">
+              </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a class=" text-nowrap text-white font-weight-600" href="javascript:void(0)"
+            [routerLink]="['/admin/orders']">
+            See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+      <div class=" card bg-gradient-warning border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Sent orders
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white">
+                {{ordersCount?.sent || 0}} / {{ordersCount?.total || 0}} <small class="text-xs"> SENT
+                </small>
+
+                </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success"
+                [value]="ordersCount?.sent && ordersCount?.total ? ordersCount?.sent/ordersCount?.total*100 : 0">
+              </progressbar>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a class=" text-nowrap text-white font-weight-600" href="javascript:void(0)"
+            [routerLink]="['/admin/orders']">
+            See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row m-auto">
+    <h4 *ngIf="ordersCount?.placed == 1" class="text-muted cursor-pointer" [routerLink]="['/','admin','orders']">
+      <i class="fas fa-info-circle mr-2"></i> There is {{ordersCount?.placed || 0}} pending order. Go to ORDERS to confirm it!
+    </h4>
+
+    <h4 *ngIf="ordersCount?.placed > 1" class="text-muted cursor-pointer" [routerLink]="['/','admin','orders']">
+      <i class="fas fa-info-circle mr-2"></i> There are {{ordersCount?.placed || 0}} pending orders. Go to ORDERS to confirm them!
+    </h4>
+  </div>
+
+  <div class=" row">
+    <div class=" card col-12 col-xl-8">
+      <div class=" card-header border-0 d-flex">
+        <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+          <div class="row">
+            <!-- DIVS with col form-group-inline -->
+            <button class="btn btn-secondary" [routerLink]="['/','admin','orders']">Manage orders</button>
+          </div>
+        </form>
+      </div>
+  
+      <div class=" table-responsive table-hover sticky-last-column">
+        <table class=" table align-items-center table-flush">
+          <thead class=" thead-light">
+            <tr>
+              <th scope="col">Status</th>
+  
+              <th scope="col">Client</th>
+  
+              <th scope="col" class="text-center">Address</th>
+  
+              <th scope="col" class="text-center">Price</th>
+  
+              <th scope="col" class="text-center">Shipping</th>
+  
+              <th scope="col" class="text-center">Date placed</th>
+  
+              <th scope="col"></th>
+            </tr>
+          </thead>
+  
+          <tbody class=" list">
+            <ng-template #loading>
+              <tr>
+                <td colspan="6" class="text-center"> Loading. Please wait...</td>
+              </tr>
+            </ng-template>
+  
+            <ng-container *ngIf="(orders$ | async) as orders; else loading">
+              <tr>
+                <td colspan="6" class="text-center" *ngIf="orders.length === 0"> No orders available yet. Please try
+                  again later.</td>
+              </tr>
+              <tr *ngFor="let order of orders | paginate: ordersPager">
+                <th scope="row">
+                  <div *ngIf="order.orderStatus == 'PLACED' " class=" icon icon-md icon-shape bg-white shadow rounded-circle">
+                    <i class="fas fa-arrow-down"></i>
+                  </div>
+  
+                  <div *ngIf="order.orderStatus == 'CONFIRMED' " class=" icon icon-md icon-shape bg-info shadow rounded-circle">
+                    <i class="fas fa-check" style="color: white;"></i>
+                  </div>
+  
+                  <div *ngIf="order.orderStatus == 'SENT' " class=" icon icon-md icon-shape bg-yellow shadow rounded-circle">
+                    <i class="fas fa-truck-loading" style="color: white;"></i>
+                  </div>
+  
+                  <div *ngIf="order.orderStatus == 'DELIVERED' " class=" icon icon-md icon-shape bg-success shadow rounded-circle">
+                    <i class="fas fa-box-open" style="color: white;"></i>
+                  </div>
+  
+                  <div *ngIf="order.orderStatus == 'CANCELED' " class=" icon icon-md icon-shape bg-danger shadow rounded-circle">
+                    <i class="fas fa-times" style="color: white;"></i>
+                  </div>
+                </th>
+  
+                <td class="bg-y">
+                  <div class=" media align-items-center" *ngIf="order.user">
+                    <ngx-avatar class="mr-2" 
+                      [name]="order.user.firstName + ' ' + order.user.lastName" 
+                      [src]="order.user.avatar"
+                      [round]="true" 
+                      [initialsSize]="2">
+                    </ngx-avatar>
+  
+                    <div class=" media-body d-flex flex-column">
+                      <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                        {{order.user.firstName}} {{ order.user.lastName}}
+                      </span>
+                      <small class="text-muted">{{order.user.email}}</small>
+                    </div>
+                  </div>
+                </td>
+  
+                <td class="bg-y text-center">{{order.address}}</td>
+  
+                <td class="bg-y text-center">{{order.price}} RON</td>
+  
+                <td class="bg-y text-center">{{order.shipping}}</td>
+  
+                <td class="bg-y text-center">{{order.createdAt | date: 'dd/MM/yyyy hh:mm'}}</td>
+  
+                <td class=" text-right">
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+    </div>
+
+    <div class="col-12 col-xl-4">
+      <div class=" card card-profile">
+        <input #coverUpload type="file" (click)="coverUpload.value = null" (change)="uploadImage('cover', $event)"
+          class="d-none" accept="image/*">
+        <img alt="Cover photo" class=" card-img-top"
+          [src]="user.cover || 'assets/img/theme/img-1-1000x600.jpg'" />
+  
+        <i *ngIf="editMode" class="ni ni-cloud-upload-96 profile-cover-upload" (click)="uploadClick(coverUpload)"></i>
+  
+        <div class=" row justify-content-center">
+          <div class=" col-lg-3 order-lg-2">
+            <div class=" card-profile-image">
+              <a href="javascript:void(0)">
+                <input #avatarUpload type="file" (click)="avatarUpload.value = null"
+                  (change)="uploadImage('avatar', $event)" class="d-none" accept="image/*">
+                <ngx-avatar 
+                  [name]="user.firstName + ' ' + user.lastName" 
+                  [src]="user.avatar"
+                  [round]="true"
+                  size="140" (clickOnAvatar)="uploadClick(avatarUpload)" [initialsSize]="2">
+                  <i *ngIf="editMode" class="ni ni-cloud-upload-96"></i>
+                </ngx-avatar>
+                <i *ngIf="editMode" class="ni ni-cloud-upload-96 profile-image-upload"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <div class=" card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class=" d-flex justify-content-between ">
+            <div class=" row">
+              <div class=" col">
+
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class=" card-body pt-8 pt-md-4 pb-0 pb-md-4">
+  
+          <div class=" text-center">
+            <h5 class=" h3">
+              {{user.firstName}} {{user.lastName}}
+            </h5>
+  
+            <div class=" h5 font-weight-300" *ngIf="address()">
+              <i class=" ni ni-pin-3 mr-2"> </i> {{address()}}
+            </div>
+  
+            <div class=" h5 mt-4" *ngIf="user.email">
+              <i class=" ni ni-email-83 mr-2"> </i> {{user.email}}
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>

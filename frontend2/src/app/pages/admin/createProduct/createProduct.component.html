@@ -1,0 +1,210 @@
+<div class=" col-xl-12">
+      <div class=" card">
+        <form [formGroup]="form" autocomplete="off" (ngSubmit)="onSubmit()">
+          <div class=" card-header">
+            <div class=" row align-items-center">
+              <div class=" col-8">
+                <h3 class=" mb-0">Add product</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class=" card-body">
+            <h6 class=" heading-small text-muted mb-4">Product information</h6>
+
+            <div>
+              <div class="row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-name">
+                      Name*
+                    </label>
+
+                    <input 
+                    class=" form-control" 
+                    id="input-name" 
+                    type="text"  
+                    [class.is-invalid]="submitted && f.name.errors"
+                    formControlName="name" />
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                      <div *ngIf="f.name.errors.required">
+                        Name is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-code">
+                      Code*
+                    </label>
+
+                    <input 
+                    class=" form-control" 
+                    id="input-code" 
+                    type="text"  
+                    [class.is-invalid]="submitted && f.code.errors"
+                    formControlName="code" />
+                    <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                      <div *ngIf="f.code.errors.required">
+                        Code is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-brand">
+                      Brand*
+                    </label>
+
+                    <input class=" form-control" id="input-brand" type="text"  [class.is-invalid]="submitted && f.brand.errors"
+                      formControlName="brand" />
+
+                    <div *ngIf="submitted && f.brand.errors" class="invalid-feedback">
+                      <div *ngIf="f.brand.errors.required">
+                        Brand is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-price">
+                      Price*
+                    </label>
+
+                    <input class=" form-control" id="input-price" type="text"  [class.is-invalid]="submitted && f.price.errors"
+                      formControlName="price" />
+
+                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                      <div *ngIf="f.price.errors.required">
+                        Price is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-stock">
+                      Stock*
+                    </label>
+
+                    <input class=" form-control" id="input-stock" type="text"  [class.is-invalid]="submitted && f.stock.errors"
+                      formControlName="stock" />
+
+                    <div *ngIf="submitted && f.stock.errors" class="invalid-feedback">
+                      <div *ngIf="f.stock.errors.required">
+                        Stock is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-size">
+                      Size
+                    </label>
+
+                    <select class="form-control" data-toggle="select" 
+                      [class.is-invalid]="submitted && f.size.errors"
+                      id="selectr" formControlName="size" >
+                      <option value=""> Select your size </option>
+                      <option [value]="s.value" *ngFor="let s of size"> {{s.label}} </option>
+                    </select>
+
+                    <div *ngIf="submitted && f.size.errors" class="invalid-feedback">
+                      <div *ngIf="f.size.errors.required">
+                        Size is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class=" col-lg-6">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="input-sex">
+                      Sex
+                    </label>
+
+                    <input class=" form-control" id="input-sex" type="text"  [class.is-invalid]="submitted && f.sex.errors"
+                      formControlName="sex" />
+
+
+                  </div>
+                </div>
+
+                  <div class=" col-lg-6">
+                    <div class=" form-group">
+                      <label class=" form-control-label" for="input-color">
+                        Color
+                      </label>
+  
+                      <input class=" form-control" id="input-color" type="text"  [class.is-invalid]="submitted && f.color.errors"
+                        formControlName="color" />
+  
+                    </div>
+  
+                  </div>
+
+                  <div class=" col-lg-6">
+                    <div class=" form-group">
+                      <label class=" form-control-label" for="input-description">
+                        Description
+                      </label>
+  
+                      <input class=" form-control" id="input-description" type="text"  [class.is-invalid]="submitted && f.description.errors"
+                        formControlName="description" />
+  
+                    </div>
+  
+                  </div>
+
+                  <div class=" col-lg-6">
+                    <div class=" form-group">
+                      <label class=" form-control-label" for="input-material">
+                        Material
+                      </label>
+  
+                      <input class=" form-control" id="input-material" type="text"  [class.is-invalid]="submitted && f.material.errors"
+                        formControlName="material" />
+  
+                    </div>
+  
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class=" form-control-label" for="input-material">
+                        Image
+                      </label>
+                        <div class="input-group input-group-alternative"
+                            [class.is-invalid]="submitted && f.image.errors">
+                            <input  class="custom-file-input" placeholder="Add photo"
+                                type="file" (change)="uploadImage('image',$event)"/>
+                                <label class=" custom-file-label" for="customFileLang">
+                                    Add photo
+                                </label>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="text-center">
+                <button type="button" type="submit" class="btn btn-primary mt-4">
+                    Add product
+                </button>
+            </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>

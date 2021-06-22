@@ -1,0 +1,10 @@
+{
+    "keywords": {
+        "ADMIN": "Administrator",
+        "TESTER": "Tester",
+        "TESTER_MONITOR": "Monitor",
+        "TESTER_ADMIN": "Testing Company Administrator",
+        "USER": "Patient",
+        "CLIENT": "Client"
+    }
+}

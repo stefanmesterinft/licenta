@@ -1,0 +1,73 @@
+
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Add device</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true" class="text-dark">&times;</span>
+        </button>
+</div>
+<div class="modal-body px-lg-5 py-lg-5">
+    <form [formGroup]="deviceForm" autocomplete="off" (ngSubmit)="submit()" role="form">
+        <!-- device type -->
+        <div class="form-group">
+            <div class="input-group input-group-alternative mb-3"
+                [class.is-invalid]="submitted && f.type.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <select class=" form-control" data-toggle="select" id="selectr" formControlName="type">
+                    <option value=""> Select device type </option>
+        
+                    <option [value]="subtype.value" *ngFor="let subtype of deviceTypes"> {{subtype.label}} </option>
+                </select>
+            </div>
+            <div *ngIf="submitted && f.type.errors" class="invalid-feedback mb-3">
+                <div *ngIf="f.type.errors.required">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+        
+        <!-- device identifier -->
+        <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.identifier.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input
+                    formControlName="identifier" class="form-control" placeholder="Device identifier"
+                    type="text" />
+            </div>
+            <div *ngIf="submitted && f.identifier.errors" class="invalid-feedback mb-3">
+                <div *ngIf="f.identifier.errors.required">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+
+        <!-- device barcode -->
+        <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.barcode.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input
+                    formControlName="barcode" class="form-control" placeholder="Device Barcode"
+                    type="text" />
+            </div>
+            <div *ngIf="submitted && f.barcode.errors" class="invalid-feedback mb-3">
+                <div *ngIf="f.barcode.errors.required">
+                    This field is required.
+                </div>
+                <div *ngIf="f.barcode.errors.min">
+                    Minimum value required is 1
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary my-4">Add Device</button>
+        </div>
+    </form>
+</div>

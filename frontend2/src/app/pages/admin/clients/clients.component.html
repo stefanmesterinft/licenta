@@ -1,0 +1,163 @@
+
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+        <div class="row">
+            <!-- DIVS with col form-group-inline -->
+          <!-- city -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input name="city" class="form-control" [(ngModel)]="filters.city"
+                placeholder="City" type="text" />
+              </div>
+            </div>
+
+            <!-- state -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-map-big"></i></span>
+                </div>
+                <input name="state" class="form-control" [(ngModel)]="filters.state"
+                placeholder="State" type="text" />
+              </div>
+            </div>
+
+            <!-- postal code -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                </div>
+                <input name="postalCode" class="form-control" [(ngModel)]="filters.postalCode"
+                placeholder="Postal Code" type="text" />
+              </div>
+            </div>
+
+        <!-- created since -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.startDate"
+                  name="startDate" class="form-control" placeholder="Created since" type="text">
+              </div>
+            </div>
+
+        <!-- created until -->
+            <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.endDate"
+                  name="endDate" class="form-control" placeholder="Created before" type="text">
+              </div>
+            </div>
+        </div>
+      </form>
+      <div class="ml-auto">
+        <button class="btn btn-icon btn-sm btn-primary btn-primary my-1 text-nowrap" (click)="add()">
+          <span class="btn-inner--icon">
+            <i class="ni ni-fat-add"></i>
+          </span>
+          Add new 
+        </button>
+      </div>
+    </div>
+
+    <div class=" table-responsive table-hover sticky-last-column">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Name</th>
+
+            <th scope="col">Phone</th>
+
+            <th scope="col">Address</th>
+
+            <th scope="col">Updated</th>
+
+            <th scope="col">Created</th>
+
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="6" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(clients$ | async) as clients; else loading">
+            <tr>
+              <td colspan="6" class="text-center" *ngIf="clients.length === 0"> No companies available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let client of clients | paginate: clientsPager; trackBy: trackById;">
+              <th scope="row" class="bg-y" [routerLink]="['/', 'admin', 'clients', 'profile', client.id]">
+                <div class=" media align-items-center">
+                  <ngx-avatar class="mr-2" 
+                    [name]="client.name" 
+                    [src]="client.avatar"
+                    [round]="true" 
+                    [initialsSize]="2"></ngx-avatar>
+
+                  <div class="d-flex flex-column">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{client.name}}
+                    </span>
+                    <small class="text-muted">{{client.email}}</small>
+                  </div>
+                </div>
+              </th>
+
+              <td class="bg-y">
+                {{client.phone}}
+              </td>
+
+              <td class="bg-y">
+                {{address(client)}}
+              </td>
+
+              <td class="bg-y">
+                {{client.updatedAt | date: 'dd/MM/yyyy'}}
+              </td>
+
+              <td class="bg-y">
+                {{client.createdAt | date: 'dd/MM/yyyy'}}
+              </td>
+
+              <td class=" text-right">
+                <div dropdown class="dropdown no-caret" container="body">
+                  <a id="button-basic" dropdownToggle role="button"
+                    class="btn btn-sm btn-icon-only text-light dropdown-toggle" aria-controls="dropdown-basic">
+                    <i class=" fas fa-ellipsis-v"> </i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+                    <button (click)="edit(client)" class="dropdown-item" >
+                      Edit
+                    </button>
+
+                    <button (click)="delete(client)" class="dropdown-item">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+  </div>
+</div>

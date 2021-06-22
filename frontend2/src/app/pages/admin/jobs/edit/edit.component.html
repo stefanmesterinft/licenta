@@ -1,0 +1,147 @@
+<div class="modal-header">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Edit job</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true" class="text-dark">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="jobForm" autocomplete="off" (ngSubmit)="edit()">
+
+        <div class="row">
+            <!-- test data -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label class=" form-control-label">
+                        Title
+                    </label>
+                    <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.title.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-tag"></i></span>
+                        </div>
+                        <input formControlName="title" class="form-control" placeholder="Job title" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                        <div *ngIf="f.title.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label class=" form-control-label">
+                        Requested number of tests
+                    </label>
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.estimatedTests.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-fat-add"></i></span>
+                        </div>
+                        <input formControlName="estimatedTests" class="form-control" placeholder="Estimated Tests"
+                            type="number" />
+                    </div>
+                    <div *ngIf="submitted && f.estimatedTests.errors" class="invalid-feedback">
+                        <div *ngIf="f.estimatedTests.errors.required">
+                            This field is required.
+                        </div>
+                        <div *ngIf="f.estimatedTests.errors.min">
+                            Minimum value required is 1
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label class=" form-control-label">
+                        Requested period
+                    </label>
+                    <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.rangeDate.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        <input bsDaterangepicker [bsConfig]="{ dateInputFormat: 'MMMM Do YYYY',adaptivePosition: true}"
+                            formControlName="rangeDate" class="form-control" placeholder="Job start date and end date"
+                            type="text">
+
+                    </div>
+                    <div *ngIf="submitted && f.rangeDate.errors" class="invalid-feedback">
+                        <div *ngIf="f.rangeDate.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tested client -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label class=" form-control-label">
+                        Client
+                    </label>
+                    <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.client.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                        </div>
+                        <input 
+                        typeaheadOptionField="name"
+                        [typeahead]="clients$"
+                        [typeaheadAsync]="true"
+                        [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="5"
+                        (typeaheadOnSelect)="selectClient($event)"
+                        class="form-control"
+                        [(ngModel)]="selected.clientModel"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="Company name or email address">
+                   </div>
+                    <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
+                        <div *ngIf="f.client.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- testing company -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label class=" form-control-label">
+                        Testing Company
+                    </label>
+                    <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.customer.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        <input 
+                        typeaheadOptionField="name"
+                        [typeahead]="customers$"
+                        [typeaheadAsync]="true"
+                        [typeaheadScrollable]="true"
+                        [typeaheadOptionsInScrollableView]="5"
+                        (typeaheadOnSelect)="selectCustomer($event)"
+                        class="form-control"
+                        [(ngModel)]="selected.customerModel"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="Company name or email address">
+                        
+                   </div>
+                    <div *ngIf="submitted && f.customer.errors" class="invalid-feedback">
+                        <div *ngIf="f.customer.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-4">
+                Save changes
+            </button>
+        </div>
+    </form>
+</div>

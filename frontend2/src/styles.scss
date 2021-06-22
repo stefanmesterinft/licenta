@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+.mb-2-5rem{
+    margin-bottom: 2.5rem;
+}
+.mt-2-5rem{
+    margin-top: 2.5rem;
+}
+
+.floating-count {
+    position: absolute;
+    right: 30px;
+    margin-top: -45px;
+}
+
+.text-underlined{
+    text-decoration: underline;
+}
+.justify-content-space-evenly{
+    justify-content: space-evenly;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

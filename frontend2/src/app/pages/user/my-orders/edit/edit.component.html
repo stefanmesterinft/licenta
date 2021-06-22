@@ -1,0 +1,152 @@
+
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Edit order</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span class="text-dark" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.address.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                        </div>
+                        <input class="form-control" formControlName="address" placeholder="Address"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                        <div *ngIf="f.address.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3"
+                    [class.is-invalid]="submitted && f.shipping.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-shipping-fast"></i></span>
+                    </div>
+                    <select formControlName="shipping" class="form-control" data-toggle="select" style="padding:0;border-right: 0;">
+                      <option *ngFor="let shipping of shippings" [value]="shipping.value">{{shipping.label}}</option>  
+                    </select>
+                  </div>
+                  <div *ngIf="submitted && f.shipping.errors" class="invalid-feedback">
+                    <div *ngIf="f.shipping.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.price.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        </div>
+                        <input class="form-control" formControlName="price" placeholder="Price"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                        <div *ngIf="f.price.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3"
+                    [class.is-invalid]="submitted && f.orderStatus.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-people-carry"></i></span>
+                    </div>
+                    <select formControlName="orderStatus" class="form-control" data-toggle="select" style="padding:0;border-right: 0;">
+                      <option *ngFor="let status of statuses" [value]="status.value">{{status.label}}</option>  
+                    </select>
+                  </div>
+                  <div *ngIf="submitted && f.orderStatus.errors" class="invalid-feedback">
+                    <div *ngIf="f.orderStatus.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class=" text-center text-muted mb-4">
+          <small> Order products </small>
+        </div>
+
+          <div *ngFor="let item of order.products; let i = index">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-copyright"></i></span>
+                    </div>
+                    <input readonly class="form-control" [(ngModel)]="item.brand" placeholder="Name" type="text" [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-4">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                    </div>
+                    <input readonly class="form-control" [(ngModel)]="item.name" placeholder="Name" type="text" [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                </div>
+              </div>  
+  
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-boxes"></i></span>
+                    </div>
+                    <input readonly class="form-control" [(ngModel)]="order.quantity[i]" placeholder="Quantity" type="text" [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    <input readonly class="form-control" [(ngModel)]="item.price" placeholder="Price" type="text" [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+        <div class="text-center">
+            <button type="button" type="submit" class="btn btn-white text-primary mt-4">
+               Save changes
+            </button>
+        </div>
+    </form>
+</div>

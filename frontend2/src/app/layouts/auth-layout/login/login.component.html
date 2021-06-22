@@ -1,0 +1,151 @@
+<div class=" main-content">
+  <div class=" header bg-secondary py-7 py-lg-8 pt-lg-9">
+    <div class=" container">
+      <div class=" header-body text-center mb-7">
+        <div class=" row justify-content-center">
+          <div class=" col-xl-5 col-lg-6 col-md-8 px-5">
+            <h1 class=" text-white">{{ (requireVerification ? "login.texts.title_verify" : "login.texts.title" ) | translate }}</h1>
+
+            <p class=" text-lead text-white"  *ngIf="!requireVerification">
+              {{ "login.texts.description" | translate }}
+            </p>
+
+            <p class=" text-lead text-white" *ngIf="requireVerification">
+              {{ "login.texts.account_created_1" | translate}} <a class="text-primary" href="javascript:void(0);" (click)="resendEmail()">{{ "login.texts.account_created_click" | translate}}</a> {{ "login.texts.account_created_2" | translate}}
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-primary" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+
+  <div class=" container mt--8 pb-5">
+    <div class=" row justify-content-center">
+      <div class=" col-lg-5 col-md-7">
+        <div class=" card bg-light border-0 mb-0">
+
+
+          <div class=" card-body px-lg-5 py-lg-5">
+
+            <ng-template #smsform>
+              <div class=" text-center text-muted mb-4">
+                <small> {{ "login.texts.sms_code_subtitle" | translate }} </small>
+              </div>
+             
+              
+              <form [formGroup]="loginForm" autocomplete="off" autocapitalize="off" autocorrect="off"
+                (ngSubmit)="login()">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative" [class.is-invalid]="submitted && f.smsCode.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                    </div>
+                    <input type="text" pattern="^\d*" maxlength="6" class="form-control" formControlName="smsCode" />
+                  </div>
+                </div>
+                <div *ngIf="submitted && f.smsCode.errors" class="invalid-feedback">
+                    {{ "error.fields.valid_sms_code" | translate:"{length: 6}" }}
+                </div>
+              </form>
+              <div class=" text-center mt-2 mb-4">
+                <label>
+                  {{ "success.sms_code_sent" | translate }}
+                </label>
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn btn-primary my-4" (click)="login()">
+                  {{ "login.sms_code_verify" | translate }}
+                </button>
+              </div>
+            
+            </ng-template>
+
+
+            
+            <div *ngIf="!showSms; else smsform">
+              <div class=" text-center text-muted mb-4">
+                <small> {{ "login.texts.subtitle" | translate }} </small>
+              </div>
+
+              <form [formGroup]="loginForm" autocomplete="off" autocapitalize="off" autocorrect="off"
+                (ngSubmit)="login()">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative" [class.is-invalid]="submitted && f.email.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input autocomplete="off" autocapitalize="off" autocorrect="off" formControlName="email"
+                      class="form-control" [placeholder]="'login.email_or_phone' | translate" type="text" />
+                  </div>
+
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">
+                      {{ "error.fields.required" | translate }}
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative" [class.is-invalid]="submitted && f.password.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input autocomplete="off" autocapitalize="off" autocorrect="off" formControlName="password"
+                      class="form-control" [placeholder]="'login.password' | translate" type="password" />
+                  </div>
+                  <div *ngIf="submitted && f.password.errors && f.password.errors.required" class="invalid-feedback">
+                    {{ "error.fields.required" | translate }}
+                  </div>
+
+                </div>
+                <div class="custom-invalid">
+                  <div *ngIf="submitted && userNotFound" class="invalid-feedback">
+                    {{ "error.user_not_found" | translate }}
+                  </div>
+                  <div *ngIf="submitted && generalError" class="invalid-feedback">
+                    {{ "error.something_went_wrong" | translate }}
+                  </div>
+                </div>
+                <div class="custom-control custom-control-alternative custom-checkbox">
+                  <input formControlName="rememberMe" class="custom-control-input" id="customCheckRegister"
+                    type="checkbox" />
+                  <label class="custom-control-label" for="customCheckRegister">
+                    <span>{{ "login.remember_me" | translate }}
+                    </span>
+                  </label>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4" type="submit">
+                    {{ "login.sign_in" | translate }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class=" row mt-3">
+          <div class=" col-6">
+            <a class="text-white" routerLinkActive="active" [routerLink]="['/auth/recover']">
+              <small> {{ "GENERAL.forgot_password" | translate }} </small>
+            </a>
+          </div>
+
+          <div class=" col-6 text-right">
+            <a class="text-white" routerLinkActive="active" [routerLink]="['/auth/register']">
+              <small> {{ "GENERAL.create_account" | translate }} </small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

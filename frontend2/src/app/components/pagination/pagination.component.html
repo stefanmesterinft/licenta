@@ -1,0 +1,49 @@
+<pagination-template #p="paginationApi" [id]="id" [maxSize]="maxSize" (pageChange)="pageChange.emit($event)"
+    (pageBoundsCorrection)="pageBoundsCorrection.emit($event)">
+
+    <ul class="pagination justify-content-center py-4" role="navigation" [attr.aria-label]="screenReaderPaginationLabel"
+        [class.responsive]="responsive" *ngIf="!(autoHide && p.pages.length <= 1)">
+
+        <li class="page-item page-prev" [class.disabled]="p.isFirstPage()" *ngIf="directionLinks">
+            <a tabindex="0" class="page-link" *ngIf="1 < p.getCurrent()" (keyup.enter)="p.previous()" href="javascript:void(0)"
+                (click)="p.previous()" [attr.aria-label]="previousLabel + ' ' + screenReaderPageLabel">
+                <i class="fa fa-angle-left"></i> 
+                <span class="sr-only">{{ screenReaderPageLabel }}</span>
+            </a>
+            <a class="page-link" href="javascript:void(0)" *ngIf="p.isFirstPage()" tabindex="-1">
+                <i class="fa fa-angle-left"></i> 
+                <span class="sr-only">{{ screenReaderPageLabel }}</span>
+            </a>
+        </li>
+
+        <li class="small-screen">
+            {{ p.getCurrent() }} / {{ p.getLastPage() }}
+        </li>
+
+        <li [class.active]="p.getCurrent() === page.value" [class.ellipsis]="page.label === '...'"
+            *ngFor="let page of p.pages" class="page-item">
+            <a tabindex="0" (keyup.enter)="p.setCurrent(page.value)" class="page-link" href="javascript:void(0)"
+                (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                <span class="sr-only">{{ screenReaderPageLabel }} </span>
+                {{ (page.label === '...') ? page.label : (page.label | number:'') }}
+            </a>
+            <a *ngIf="p.getCurrent() === page.value" class="page-link" href="javascript:void(0)">
+                <span class="sr-only">{{ screenReaderCurrentLabel }} </span>
+                {{ (page.label === '...') ? page.label : (page.label | number:'') }}
+            </a>
+        </li>
+
+        <li class="page-item page-next" [class.disabled]="p.isLastPage()" *ngIf="directionLinks">
+            <a tabindex="0" class="page-link" *ngIf="!p.isLastPage()" (keyup.enter)="p.next()" (click)="p.next()" href="javascript:void(0)"
+                [attr.aria-label]="nextLabel + ' ' + screenReaderPageLabel">
+                <i class="fa fa-angle-right"></i> 
+                <span class="sr-only">{{ screenReaderPageLabel }}</span>
+            </a>
+            <a class="page-link" href="javascript:void(0)" *ngIf="p.isLastPage()" tabindex="-1">
+                <i class="fa fa-angle-right"></i> 
+                <span class="sr-only">{{ screenReaderPageLabel }}</span>
+            </a>
+        </li>
+
+    </ul>
+</pagination-template>

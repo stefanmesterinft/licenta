@@ -1,0 +1,120 @@
+
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Add sample</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true" class="text-dark">&times;</span>
+        </button>
+</div>
+<div class="modal-body px-lg-5 py-lg-5">
+    <form [formGroup]="sampleForm" autocomplete="off" (ngSubmit)="submit()" role="form">
+        <!-- sample type -->
+        <div class="form-group">
+            <div class="input-group input-group-alternative mb-3"
+                [class.is-invalid]="submitted && f.type.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <select class=" form-control" data-toggle="select" id="selectr" formControlName="type">
+                    <option value=""> Select sample type </option>
+        
+                    <option [value]="subtype.value" *ngFor="let subtype of sampleTypes"> {{subtype.label}} </option>
+                </select>
+            </div>
+            <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                <div *ngIf="f.type.errors.required">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+
+         <!-- sample units -->
+         <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.units.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input
+                    formControlName="units" class="form-control" placeholder="Sample number of units"
+                    type="number" />
+            </div>
+            <div *ngIf="submitted && f.units.errors" class="invalid-feedback">
+                <div *ngIf="f.units.errors.required">
+                    This field is required.
+                </div>
+                <div *ngIf="f.units.errors.min">
+                    Value must not be lower than 0
+                </div>
+            </div>
+        </div>
+        
+        <!-- sample identifier -->
+        <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.identifier.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input
+                    formControlName="identifier" class="form-control" placeholder="Sample identifier"
+                    type="text" />
+            </div>
+            <div *ngIf="submitted && f.identifier.errors" class="invalid-feedback">
+                <div *ngIf="f.identifier.errors.required">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+
+        <!-- sample barcode -->
+        <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.barcode.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                <input
+                    formControlName="barcode" class="form-control" placeholder="Sample Barcode"
+                    type="text" />
+            </div>
+            <div *ngIf="submitted && f.barcode.errors" class="invalid-feedback">
+                <div *ngIf="f.barcode.errors.required">
+                    This field is required.
+                </div>
+                <div *ngIf="f.barcode.errors.min">
+                    Minimum value required is 1
+                </div>
+            </div>
+        </div>
+
+        <!-- owner autocomplete -->
+        <div class="form-group" >
+            <div class="input-group input-group-alternative mb-3" [class.is-invalid]="submitted && f.customer.errors">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-building"></i></span>
+                </div>
+                
+                <!-- <input
+                    formControlName="barcode" class="form-control" placeholder="Sample Barcode"
+                    type="text" /> -->
+                    <input [(ngModel)]="selected.customer"
+                    [ngModelOptions]="{standalone: true}"
+                    typeaheadOptionField="name"
+                    [typeahead]="customers$"
+                    [typeaheadAsync]="true"
+                    (typeaheadOnSelect)="selectMatch($event)"
+                    class="form-control"
+                    
+                    placeholder="Sample Owner">
+            </div>
+            <div *ngIf="submitted && f.customer.errors" class="invalid-feedback">
+                <div *ngIf="f.customer.errors.required">
+                    Please select a value from the list
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary my-4">Add Sample</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,222 @@
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+        <div class="row">
+
+          <!-- owner -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-building"></i></span>
+              </div>
+
+              <input [(ngModel)]="selected.customer"
+                [ngModelOptions]="{ standalone: true }"
+                [typeahead]="customers$"
+                [typeaheadAsync]="true" 
+                (typeaheadOnSelect)="selectMatch('customer',$event)" typeaheadOptionField="name"
+                (input)="clearIfEmpty('customer')" 
+                class="form-control" 
+                placeholder="Owner">
+            </div>
+          </div>
+
+          <!-- asssinged to -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-ambulance"></i></span>
+              </div>
+
+              <input [(ngModel)]="selected.tester"
+                [ngModelOptions]="{ standalone: true }"
+                typeaheadOptionField="name"
+                [typeahead]="testers$"
+                [typeaheadAsync]="true" 
+                (typeaheadOnSelect)="selectMatch('assigned',$event)"
+                typeaheadOptionField="name"
+                (input)="clearIfEmpty('assigned')"
+                class="form-control"
+                placeholder="Assigned to">
+            </div>
+          </div>
+
+          <!-- type -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-tag"></i></span>
+              </div>
+              <!-- [typeaheadItemTemplate]="customItemTemplate" -->
+              <select class=" form-control" (change)="selectMatch('type',$event)" name="type">
+                <option value=""> Select type </option>
+
+                <option [value]="type.value" *ngFor="let type of types"> {{type.label}} </option>
+              </select>
+
+            </div>
+          </div>
+
+
+          <!-- created date between -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.startDate"
+                name="startDate" class="form-control" placeholder="Created since" type="text">
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.endDate"
+                name="endDate" class="form-control" placeholder="Created before" type="text">
+            </div>
+          </div>
+
+        </div>
+      </form>
+      <div class="ml-auto">
+        <button class="btn btn-icon btn-sm btn-primary btn-primary my-1 text-nowrap" (click)="add()">
+          <span class="btn-inner--icon">
+            <i class="ni ni-fat-add"></i>
+          </span>
+          Add new
+        </button>
+      </div>
+    </div>
+
+    <div class=" table-responsive table-hover sticky-last-column">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Barcode</th>
+
+            <th scope="col">Identifier</th>
+
+            <th scope="col">Owner</th>
+
+            <th scope="col">Assigned to</th>
+
+            <th scope="col">Type</th>
+
+            <th scope="col">Available units</th>
+
+            <th scope="col">Updated</th>
+
+            <th scope="col">Created</th>
+
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="9" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(samples$ | async) as samples; else loading">
+            <tr>
+              <td colspan="9" class="text-center" *ngIf="samples.length === 0"> No samples available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let sample of samples | paginate: samplesPager; trackBy: trackById;">
+              <th scope="row" class="bg-y">
+                <div class="align-items-center" *ngIf="sample.barcode">
+                  <img [src]="renderBarcode(sample)" /><br />
+                  {{sample.barcode}}
+                </div>
+              </th>
+
+              <th scope="row" class="bg-y">
+                {{sample.identifier}}
+              </th>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="sample.customer" [routerLink]="['/', 'admin', 'companies', 'profile', sample.customer.id]">
+                  <ngx-avatar class="mr-2" 
+                    [name]="sample.customer.name" 
+                    [src]="sample.customer.avatar"
+                    [round]="true" 
+                    [initialsSize]="2"></ngx-avatar>
+
+                  <div class=" media-body d-flex flex-column">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{sample.customer.name}}
+                    </span>
+                    <small class="text-muted">{{sample.customer.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="sample.assigned"
+                  [routerLink]="['/', 'admin', 'profile', sample.assigned.id]">
+                  <ngx-avatar class="mr-2" 
+                    [name]="sample.assigned.firstName + ' ' + sample.assigned.lastName"
+                    [src]="sample.assigned.avatar"
+                    [round]="true" [initialsSize]="2"></ngx-avatar>
+
+                  <div class=" media-body d-flex flex-column">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{sample.assigned.firstName}} {{sample.assigned.lastName}}
+                    </span>
+                    <small class="text-muted">{{sample.assigned.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y">
+                {{sample.type}}
+              </td>
+
+              <td class="bg-y">
+                {{sample.units}}
+              </td>
+
+              <td class="bg-y">
+                {{sample.updatedAt | date: 'dd/MM/yyyy'}}
+              </td>
+
+              <td class="bg-y">
+                {{sample.createdAt | date: 'dd/MM/yyyy'}}
+              </td>
+
+              <td class=" text-right">
+                <div dropdown class="dropdown no-caret" container="body">
+                  <a id="button-basic" dropdownToggle role="button"
+                    class="btn btn-sm btn-icon-only text-light dropdown-toggle" aria-controls="dropdown-basic">
+                    <i class=" fas fa-ellipsis-v"> </i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+                    <button class="dropdown-item" (click)="assignTester(sample)">
+                      Assign
+                    </button>
+
+                    <button class="dropdown-item" (click)="edit(sample)">
+                      Edit
+                    </button>
+
+                    <button class="dropdown-item" (click)="delete(sample)">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+  </div>
+</div>

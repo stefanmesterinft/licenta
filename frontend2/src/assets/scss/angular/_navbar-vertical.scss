@@ -1,0 +1,38 @@
+.g-sidenav-pinned {
+
+  .sidenav-toggler {
+    cursor: pointer;
+
+    .sidenav-toggler-inner {
+      &:before {
+        transform: scale(1);
+      }
+    }
+
+    .sidenav-toggler-line {
+      background-color: theme-color("primary");
+
+      &:first-child {
+        width: 13px;
+        transform: translateX(5px);
+      }
+
+      &:last-child {
+        width: 13px;
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  .navbar-nav {
+    .sidenav-toggler {
+      .sidenav-toggler-line {
+        background-color: theme-color("white");
+      }
+    }
+  }
+
+}
+.g-sidenav-hidden:not(.g-sidenav-show) .sidenav{
+  max-width: 62px !important;
+}

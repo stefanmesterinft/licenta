@@ -1,0 +1,145 @@
+
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Edit question</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span class="text-dark" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.question.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni ni-ruler-pencil"></i></span>
+                        </div>
+                        <input formControlName="question" class="form-control" placeholder="Question" type="question" />
+                    </div>
+                    <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                        <div *ngIf="f.question.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.description.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-tag"></i></span>
+                        </div>
+                        <input formControlName="description" class="form-control" placeholder="Description" type="description" />
+                    </div>
+                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                        <div *ngIf="f.description.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <div class="form-group ">
+                    <div class="input-group input-group-alternative mb-3 custom-subtype-group"
+                        [class.is-invalid]="submitted && f.answerType.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-archive-2"></i></span>
+                        </div>
+
+                        <select class=" form-control" data-toggle="select" id="selectr"
+                            formControlName="answerType">
+                            <option value=""> Select answer type </option>
+
+                            <option [value]="type.value" *ngFor="let type of answerTypes"> {{type.label}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="submitted && f.answerType.errors" class="invalid-feedback">
+                        <div *ngIf="f.answerType.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="[ ANSWERTYPE.RADIO, ANSWERTYPE.CHECKBOX, ANSWERTYPE.DROPDOWN ].includes(f.answerType.value)">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.answers.errors">
+                        <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                        <textarea class="form-control form-control-alternative" formControlName="answers"
+                         placeholder="Write the available answers one per line">
+                        </textarea>
+                    </div>
+                    <div *ngIf="submitted && f.answers.errors" class="invalid-feedback">
+                        <div *ngIf="f.answers.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.parent.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+   
+                        <input [(ngModel)]="selected.parentModel"
+                        [ngModelOptions]="{standalone: true}"
+                        typeaheadOptionField="name"
+                        [typeahead]="questions$"
+                        [typeaheadAsync]="true"
+                        (typeaheadOnSelect)="selectMatch($event)"
+                        class="form-control"
+                        placeholder="Parent question (Optional)">
+          
+                        <div class="input-group-append" *ngIf="selected.parentModel">
+                            <span class="input-group-text" (click)="clearTypeahead()"><i class="fa fa-times"></i></span>
+                        </div>
+                    </div>
+                    <div *ngIf="submitted && f.parent.errors" class="invalid-feedback">
+                        <div *ngIf="f.parent.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="f.parent.value">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.parentAnswersRequired.errors">
+                        <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                        <textarea class="form-control form-control-alternative" formControlName="parentAnswersRequired"
+                         placeholder="Write the parent answers that will trigger the visibility of this question">
+                        </textarea>
+                    </div>
+                    <div *ngIf="submitted && f.parentAnswersRequired.errors" class="invalid-feedback">
+                        <div *ngIf="f.parentAnswersRequired.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center">
+            <button type="button" type="submit" class="btn btn-primary mt-4">
+                Save question
+            </button>
+        </div>
+    </form>
+
+
+</div>

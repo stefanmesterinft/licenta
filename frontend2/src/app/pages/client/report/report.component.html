@@ -1,0 +1,144 @@
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <h3 class=" mb-0">Test Reports</h3>
+      <!-- <div class="ml-auto">
+        <button class="btn btn-sm btn-neutral" (click)="add()"> Add </button>
+      </div> -->
+    </div>
+
+    <div class=" table-responsive">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Code</th>
+
+            <th scope="col">Requesting Client</th>
+
+            <th scope="col">Testing Company</th>
+
+            <th scope="col">Tester</th>
+
+            <th scope="col">Patient</th>
+
+            <th scope="col">Temperature</th>
+
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="5" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(tests$ | async) as tests; else loading">
+            <tr>
+              <td colspan="5" class="text-center" *ngIf="tests.length === 0"> No tests available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let test of tests | paginate: testsPager; trackBy: trackById;">
+              <th scope="row">
+                <div class="align-items-center">
+                  <img [src]="renderBarcode(test)" /><br />
+                  {{test.code}}
+                </div>
+              </th>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="test.job && test.job.client">
+                  <ngx-avatar class="mr-2" 
+                    [name]="test.job.client.name" 
+                    [src]="test.job.client.avatar"
+                    [round]="true" 
+                    [initialsSize]="2"></ngx-avatar>
+
+                  <div class=" media-body">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{test.job.client.name}}
+                    </span> <br />
+                    <small class="text-muted">{{test.job.client.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="test.customer">
+                  <ngx-avatar class="mr-2" 
+                    [name]="test.customer.name" 
+                    [src]="test.customer.avatar"
+                    [round]="true" 
+                    [initialsSize]="2"></ngx-avatar>
+
+                  <div class=" media-body">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{test.customer.name}}
+                    </span> <br />
+                    <small class="text-muted">{{test.customer.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y">
+                <div class="media align-items-center" *ngIf="test.tester" [routerLink]="['/', 'client', 'profile', test.tester.id]">
+                  <ngx-avatar class="mr-2" 
+                    [name]="test.tester.firstName + '' +  test.tester.lastName "
+                    [src]="test.tester.avatar"
+                    [round]="true" 
+                    [initialsSize]="2">
+                  </ngx-avatar>
+
+                  <div class="media-body">
+                    <span class="name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{test.tester.firstName}} {{test.tester.lastName}}
+                    </span> <br />
+                    <small class="text-muted">{{test.tester.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="bg-y">
+                <div class=" media align-items-center" *ngIf="test.patient" [routerLink]="['/', 'client', 'profile', test.patient.id]">
+                  <ngx-avatar class="mr-2" 
+                    [name]="test.patient.firstName + '' +  test.patient.lastName " 
+                    [src]="test.patient.avatar"
+                    [round]="true" 
+                    [initialsSize]="2"></ngx-avatar>
+
+                  <div class=" media-body">
+                    <span class=" name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{test.patient.firstName}} {{test.patient.lastName}}
+                    </span> <br />
+                    <small class="text-muted">{{test.patient.email}}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td class="text-center">
+                <span *ngIf="test.temperature">{{test.temperature}}°F</span>
+              </td>
+
+              <td class="text-center" >
+                <span class=" badge badge-dot mr-4" [tooltip]="test.reason">
+                  <i [ngClass]="{ 
+                    'bg-dark' : !test.result,
+                    'bg-yellow' :test.result === 'RETEST',
+                    'bg-success':test.result === 'NEGATIVE',
+                    'bg-danger' :test.result === 'POSITIVE'
+                  }"> </i>
+
+                  <span class=" status"> {{test.result || 'Pending'}} </span>
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
+      <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+    </div>
+  </div>
+</div>
+

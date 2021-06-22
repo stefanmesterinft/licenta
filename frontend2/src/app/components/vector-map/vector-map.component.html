@@ -1,0 +1,11 @@
+<dx-vector-map
+  [class]="mapClass"
+  (onClick)="click($event)"
+>
+  <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip">
+    <dxo-font color="#fff"></dxo-font>
+    <dxo-border [visible]="false"></dxo-border>
+  </dxo-tooltip>
+  <dxi-layer [dataSource]="world" [customize]="customizeLayers" *ngIf="data"> </dxi-layer>
+  <dxi-layer [dataSource]="states" [customize]="customizeStateLayers" *ngIf="data"> </dxi-layer>
+</dx-vector-map>

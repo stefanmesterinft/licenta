@@ -1,0 +1,21 @@
+
+    <div class="modal-header">
+        <span> Assign a testing company for this job</span>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+            <span class="text-dark" aria-hidden="true">&times;</span>
+          </button>
+
+    </div>
+    <div class="modal-body pt-0">
+        <div class="form">
+            <input [(ngModel)]="selected.customer"
+            typeaheadOptionField="name"
+            [typeahead]="customers$"
+            [typeaheadAsync]="true"
+            (typeaheadOnSelect)="selectMatch($event)"
+            class="form-control"
+            placeholder="Start typing the testing company name or email">
+       </div>
+    </div>
+    
+

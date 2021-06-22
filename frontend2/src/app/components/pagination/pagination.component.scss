@@ -1,0 +1,13 @@
+.pagination .small-screen {
+    display: none;
+}
+
+@media screen and (max-width: 601px) {
+    .pagination.responsive .small-screen {
+        display: inline-block;
+    }
+
+    .pagination.responsive li:not(.small-screen):not(.page-prev):not(.page-next) {
+        display: none;
+    }
+}

@@ -1,0 +1,415 @@
+<div class="modal-header bg-transparent pb-3 d-flex">
+    <div class="text-center text-muted flex-grow-1">
+        <span>Add tester</span>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span class="text-dark" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.customer.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        <!-- <div class="form"> -->
+                        <input [(ngModel)]="selected.customerModel" [ngModelOptions]="{standalone: true}"
+                            typeaheadOptionField="name" [typeahead]="customers$" [typeaheadAsync]="true"
+                            (typeaheadOnSelect)="selectMatch($event)" class="form-control"
+                            placeholder="Testing company name or email address">
+                        <!-- </div> -->
+                    </div>
+                    <div *ngIf="submitted && f.customer.errors" class="invalid-feedback">
+                        <div *ngIf="f.customer.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="mx--3 mx-lg--4"/>
+        
+        <div class=" text-center text-muted mb-4">
+            <small> Please fill in account information. </small>
+        </div>
+
+        <!-- role -->
+        <div class="row">
+            <div class="form-group col-sm-6 col-xs-12 d-flex">
+                <div class="input-group m-auto w-auto" [class.is-invalid]="submitted && form.errors?.atLeastOneRole">
+                    <div class=" custom-control custom-control-alternative custom-checkbox d-flex">
+                        
+                        <label class="custom-toggle mr-2">
+                            <input type="checkbox" formControlName="tester" checked>
+                            <span class="custom-toggle-slider rounded-circle"  data-label-off="No" data-label-on="Yes"></span>
+
+                        </label>
+                        <span translate>ROLE.TESTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-xs-12 d-flex">
+                <div class="input-group m-auto w-auto" [class.is-invalid]="submitted && form.errors?.atLeastOneRole">
+                    <div class="custom-control custom-control-alternative custom-checkbox d-flex">
+                        
+                        <label class="custom-toggle mr-2">
+                            <input type="checkbox" formControlName="monitor" checked>
+                            <span class="custom-toggle-slider rounded-circle"  data-label-off="No" data-label-on="Yes"></span>
+
+                        </label>
+                        <span translate>ROLE.TESTER_MONITOR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="submitted && form.errors?.atLeastOneRole">
+            <div class="col-12 mb-3">
+                <div class="text-center  d-block  invalid-feedback">
+                    <div *ngIf="form.errors.atLeastOneRole">
+                        At least one role is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-9 col-md-6 col-sm-12">
+                <div class="form-group ">
+                    <div class="flex-grow-1 input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.email.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                        </div>
+                        <input formControlName="email" class="form-control" placeholder="Email" type="email" />
+                       
+                    </div>
+                   
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">
+                            This field is required.
+                        </div>
+                        <div *ngIf="f.email.errors.email">
+                            Please fill in a valid email address.
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="d-flex col-lg-3 col-md-6 col-sm-12 mb-2-5rem align-items-center justify-content-between">
+                <span>Confirmed?</span>
+                <label class="custom-toggle mr-2">
+                    <input type="checkbox" formControlName="emailConfirmed">
+                    <span class="custom-toggle-slider rounded-circle"  data-label-off="No" data-label-on="Yes"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- password -->
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && (f.password.errors || form.errors?.passwordsMismatch)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        </div>
+                        <input autocomplete="new-password" formControlName="password" class="form-control"
+                            placeholder="Password" type="password" />
+                    </div>
+                    <div *ngIf="submitted && (f.password.errors || form.errors?.passwordsMismatch)"
+                        class="invalid-feedback">
+                        <div *ngIf="f.password.errors?.required">
+                            This field is required.
+                        </div>
+                        <div *ngIf="f.password.errors?.minlength">
+                            Minimum password length is 8 characters.
+                        </div>
+                        <div *ngIf="form.errors?.passwordsMismatch">
+                            This field must match confirm password field.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && (f.confirmPassword.errors|| form.errors?.passwordsMismatch)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        </div>
+                        <input formControlName="confirmPassword" class="form-control" placeholder="Confirm Password"
+                            type="password" />
+                    </div>
+                    <div *ngIf="submitted && (f.confirmPassword.errors|| form.errors?.passwordsMismatch)"
+                        class="invalid-feedback">
+                        <div *ngIf="f.confirmPassword.errors?.required">
+                            This field is required.
+                        </div>
+                        <div *ngIf="form.errors?.passwordsMismatch">
+                            This field must match password field.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="mx--3 mx-lg--4"/>
+
+        <div class=" text-center text-muted mb-4">
+            <small> Please fill in contact information. </small>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.firstName.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                        </div>
+                        <input class="form-control" formControlName="firstName" placeholder="First Name" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.middleName.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                        </div>
+                        <input class="form-control" formControlName="middleName" placeholder="Middle Name"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.middleName.errors" class="invalid-feedback">
+                        <div *ngIf="f.middleName.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.lastName.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                        </div>
+                        <input formControlName="lastName" class="form-control" placeholder="Last Name" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.dateOfBirth.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', adaptivePosition: true }"
+                            [maxDate]="maxBirthDate" formControlName="dateOfBirth" class="form-control"
+                            placeholder="Date Of Birth" type="text">
+                    </div>
+                    <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
+                        <div *ngIf="f.dateOfBirth.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.socialSecurityNumber.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                        </div>
+                        <input formControlName="socialSecurityNumber" class="form-control"
+                            placeholder="Social Security Number" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.socialSecurityNumber.errors" class="invalid-feedback">
+                        <div *ngIf="f.socialSecurityNumber.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.address1.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                        </div>
+                        <input formControlName="address1" class="form-control" placeholder="Address Line 1"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
+                        <div *ngIf="f.address1.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.address2.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                        </div>
+                        <input formControlName="address2" class="form-control" placeholder="Address Line 2"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.address2.errors" class="invalid-feedback">
+                        <div *ngIf="f.address2.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.city.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        <input formControlName="city" class="form-control" placeholder="City" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                        <div *ngIf="f.city.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3"
+                    [class.is-invalid]="submitted && f.state.errors">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-map-big"></i></span>
+                    </div>
+                    <select formControlName="state" class="form-control" data-toggle="select" >
+                      <option value=""> Select your state </option>
+                      <option *ngFor="let state of states" [value]="state.value">{{state.label}}</option>  
+                    </select>
+                  </div>
+                  <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                    <div *ngIf="f.state.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.postalCode.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-square-pin"></i></span>
+                        </div>
+                        <input formControlName="postalCode" class="form-control" placeholder="Postal Code"
+                            type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                        <div *ngIf="f.postalCode.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.phone.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                        </div>
+                        <input formControlName="phone" class="form-control" placeholder="Telephone" type="text" />
+                    </div>
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class=" form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                    [class.is-invalid]="submitted && f.sex.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-favourite-28"></i></span>
+                        </div>
+                        <select class="form-control" data-toggle="select" 
+                        id="selectr" formControlName="sex" >
+                            <option value=""> Select sex </option>
+                            <option [value]="s.value" *ngFor="let s of sex"> {{s.label}} </option>
+                        </select>
+                    </div>
+                    <div *ngIf="submitted && f.sex.errors" class="invalid-feedback">
+                        <div *ngIf="f.sex.errors.required">
+                            Sex is required.
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="col-12 col-md-6">
+                <div class=" form-group">
+                    <div class="input-group input-group-alternative mb-3"
+                        [class.is-invalid]="submitted && f.race_ethnicity.errors">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-world"></i></span>
+                        </div>
+                       <select class="form-control" data-toggle="select" 
+                        id="input-race_ethnicity" formControlName="race_ethnicity" >
+                            <option value=""> Select race & ethnicity </option>
+                            <option [value]="r.value" *ngFor="let r of races"> {{r.label}} </option>
+                        </select>
+                    </div>
+                    <div *ngIf="submitted && f.race_ethnicity.errors" class="invalid-feedback">
+                    <div *ngIf="f.race_ethnicity.errors.required">
+                        Race or Ethnicity is required.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center">
+            <button type="button" type="submit" class="btn btn-primary mt-4">
+                Add tester
+            </button>
+        </div>
+    </form>
+
+
+</div>

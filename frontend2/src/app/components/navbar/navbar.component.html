@@ -1,0 +1,336 @@
+<nav
+  class="navbar navbar-top navbar-expand navbar-dark bg-secondary navbar-dark border-bottom"
+  id="navbar-main"
+>
+  <div [class.container]="!fluid"  [class.container-fluid]="fluid">
+    <a class="navbar-brand" [routerLink]="[dashboard]" *ngIf="!layoutService.sidebar">
+      <img src="assets/img/brand/logo.png" style="width:10%"/>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Search form -->
+      <form
+        class="navbar-search navbar-search-light form-inline mr-sm-3"
+        id="navbar-search-main"
+        *ngIf="layoutService.search"
+      >
+        <div class="form-group mb-0" [class.focused]="focus">
+          <div class="input-group input-group-alternative input-group-merge">
+            <div class="input-group-prepend">
+              <span class="input-group-text"
+                ><i class="fas fa-search"></i
+              ></span>
+            </div>
+            <input
+              class="form-control"
+              placeholder="Search"
+              type="text"
+              [(ngModel)]="searchValue"
+              (ngModelChange)="onSearch()"
+              [ngModelOptions]="{standalone: true}"
+              (focus)="focus = true"
+              (blur)="focus = false"
+            />
+          </div>
+        </div>
+        <button
+          type="button"
+          class="close"
+          (click)="closeSearch()"
+          data-action="search-close"
+          data-target="#navbar-search-main"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </form> 
+      <!-- Navbar links -->
+      <ul class="navbar-nav align-items-center" *ngIf="authService.isAuthenticated()">
+        <li class="nav-item d-xl-none" *ngIf="layoutService.sidebar">
+          <div
+            class="pr-3 sidenav-toggler sidenav-toggler-dark"
+            data-action="sidenav-pin"
+            data-target="#sidenav-main"
+            (click)="openSidebar()"
+          >
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item d-sm-none" *ngIf="layoutService.search">
+          <a class="nav-link" (click)="openSearch()">
+            <i class="ni ni-zoom-split-in"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown d-none" dropdown placement="bottom-right">
+          <a class="nav-link dropdown-toggle" role="button" dropdownToggle>
+            <i class="ni ni-bell-55"></i>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden"
+            *dropdownMenu
+          >
+
+            <div class="px-3 py-3">
+              <h6 class="text-sm text-muted m-0">
+                You have <strong class="text-primary">13</strong> notifications.
+              </h6>
+            </div>
+
+            <div class="list-group list-group-flush">
+              <a
+                href="javascript:void()"
+                class="list-group-item list-group-item-action"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+
+                    <img
+                      alt="Image placeholder"
+                      src="assets/img/theme/team-1.jpg"
+                      class="avatar rounded-circle"
+                    />
+                  </div>
+                  <div class="col ml--2">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div><h4 class="mb-0 text-sm">John Snow</h4></div>
+                      <div class="text-right text-muted">
+                        <small>2 hrs ago</small>
+                      </div>
+                    </div>
+                    <p class="text-sm mb-0">
+                      Let's meet at Starbucks at 11:30. Wdyt?
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="javascript:void()"
+                class="list-group-item list-group-item-action"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+
+                    <img
+                      alt="Image placeholder"
+                      src="assets/img/theme/team-2.jpg"
+                      class="avatar rounded-circle"
+                    />
+                  </div>
+                  <div class="col ml--2">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div><h4 class="mb-0 text-sm">John Snow</h4></div>
+                      <div class="text-right text-muted">
+                        <small>3 hrs ago</small>
+                      </div>
+                    </div>
+                    <p class="text-sm mb-0">
+                      A new issue has been reported for Argon.
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="javascript:void()"
+                class="list-group-item list-group-item-action"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img
+                      alt="Image placeholder"
+                      src="assets/img/theme/team-3.jpg"
+                      class="avatar rounded-circle"
+                    />
+                  </div>
+                  <div class="col ml--2">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div><h4 class="mb-0 text-sm">John Snow</h4></div>
+                      <div class="text-right text-muted">
+                        <small>5 hrs ago</small>
+                      </div>
+                    </div>
+                    <p class="text-sm mb-0">
+                      Your posts have been liked a lot.
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="javascript:void()"
+                class="list-group-item list-group-item-action"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img
+                      alt="Image placeholder"
+                      src="assets/img/theme/team-4.jpg"
+                      class="avatar rounded-circle"
+                    />
+                  </div>
+                  <div class="col ml--2">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div><h4 class="mb-0 text-sm">John Snow</h4></div>
+                      <div class="text-right text-muted">
+                        <small>2 hrs ago</small>
+                      </div>
+                    </div>
+                    <p class="text-sm mb-0">
+                      Let's meet at Starbucks at 11:30. Wdyt?
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="javascript:void()"
+                class="list-group-item list-group-item-action"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img
+                      alt="Image placeholder"
+                      src="assets/img/theme/team-5.jpg"
+                      class="avatar rounded-circle"
+                    />
+                  </div>
+                  <div class="col ml--2">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div><h4 class="mb-0 text-sm">John Snow</h4></div>
+                      <div class="text-right text-muted">
+                        <small>3 hrs ago</small>
+                      </div>
+                    </div>
+                    <p class="text-sm mb-0">
+                      A new issue has been reported for Argon.
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <a
+              href="javascript:void()"
+              class="dropdown-item text-center text-primary font-weight-bold py-3"
+              >View all</a
+            >
+          </div>
+        </li>
+      </ul>
+      <!-- User -->
+      <ul class="navbar-nav align-items-center ml-auto" *ngIf="authService.isAuthenticated()">
+        <li><a *ngIf="user.roles[0] == 'ADMIN'" [routerLink]="['/admin/cart']"><i class="fas fa-shopping-cart text-white"></i></a></li>
+        <li><a *ngIf="user.roles[0] == 'USER'" [routerLink]="['/user/cart']"><i class="fas fa-shopping-cart text-white"></i></a></li>
+
+        <li class="nav-item dropdown" dropdown placement="bottom-right">
+          <a class="nav-link pr-0 dropdown-toggle" role="button" dropdownToggle>
+            <div class="media align-items-center">
+              <div class="media-body d-none d-lg-flex flex-column text-right">
+                <span class="mb-0 text-sm  font-weight-bold">{{user.firstName}} {{user.lastName}}</span>
+                
+                <div *ngIf="user.roles && user.roles.length>1; else onerole">
+                  <small *ngFor="let role of user.roles">{{ "ROLE." + role | translate}}&nbsp;</small>
+                </div>
+                <ng-template #onerole>
+                  <small>{{ "ROLE." +  user.roles | translate}}</small>
+                </ng-template>
+              </div>
+              <ngx-avatar class="ml-3" 
+                [name]="user.firstName + '' +  user.lastName " 
+                [src]="user.avatar"
+                [round]="true" [initialsSize]="2"></ngx-avatar>
+            </div>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-arrow dropdown-menu-right"
+            *dropdownMenu
+          >
+
+            <a
+            *ngIf="authService.hasRole(ROLE.ADMIN)"
+              routerLinkActive="active"
+              [routerLink]="[dashboard.replace('dashboard', 'cart')]"
+              class="dropdown-item">
+              <i class="fas fa-shopping-cart"></i> <span>My cart</span>
+            </a>
+
+            <a
+            *ngIf="authService.hasRole(ROLE.USER)"
+            routerLinkActive="active"
+            [routerLink]="[dashboard.replace('homepage', 'cart')]"
+            class="dropdown-item">
+            <i class="fas fa-shopping-cart"></i> <span>My cart</span>
+          </a>
+
+          <a
+          *ngIf="authService.hasRole(ROLE.USER)"
+          routerLinkActive="active"
+          [routerLink]="[dashboard.replace('homepage', 'profile')]"
+          class="dropdown-item">
+          <i class="ni ni-single-02"></i> <span>My profile</span>
+          </a>
+
+            <a
+            *ngIf="authService.hasRole(ROLE.ADMIN)"
+              routerLinkActive="active"
+              [routerLink]="[dashboard.replace('dashboard', 'profile')]"
+              class="dropdown-item">
+              <i class="ni ni-single-02"></i> <span>My profile</span>
+            </a>
+            
+            <a
+            *ngIf="authService.hasRole(ROLE.ADMIN)"
+              routerLinkActive="active"
+              [routerLink]="[dashboard.replace('dashboard', 'my-orders')]"
+              class="dropdown-item">
+              <i class="fas fa-truck"></i> <span>My Orders</span>
+            </a>
+
+            <a
+            *ngIf="authService.hasRole(ROLE.USER)"
+            routerLinkActive="active"
+            [routerLink]="[dashboard.replace('homepage', 'my-orders')]"
+            class="dropdown-item">
+            <i class="fas fa-truck"></i> <span>My Orders</span>
+          </a>
+
+            <a
+              *ngIf="authService.hasRole(ROLE.ADMIN)"
+              routerLinkActive="active"
+              [routerLink]="[dashboard.replace('dashboard','orders')]"
+              class="dropdown-item">
+              <i class="fas fa-truck-loading"></i> <span>All Orders</span>
+            </a>
+
+            <a
+              *ngIf="authService.hasRole(ROLE.ADMIN)"
+              routerLinkActive="active"
+              [routerLink]="[dashboard.replace('dashboard', 'create-products')]"
+              class="dropdown-item">
+              <i class="fas fa-plus"></i> <span>Products</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0)" (click)="logout()" class="dropdown-item text-red">
+              <i class="ni ni-user-run"></i> <span>Logout</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div
+  *ngIf="layoutService.sidebarOpened && authService.isAuthenticated() && layoutService.sidebar"
+  class="backdrop d-xl-none"
+  (click)="toggleSidenav()"
+>
+</div>

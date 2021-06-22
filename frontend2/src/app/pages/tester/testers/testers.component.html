@@ -1,0 +1,172 @@
+<div class="container-fluid">
+  <div class=" card">
+    <div class=" card-header border-0 d-flex">
+      <form #filtersForm="ngForm" autocomplete="off" class="mr-5">
+        <div class="row">
+          <!-- role -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-tag"></i></span>
+              </div>
+              <!-- [typeaheadItemTemplate]="customItemTemplate" -->
+              <select class=" form-control" (change)="selectMatch('role',$event)" name="role">
+                <option value=""> Select role </option>
+
+                <option [value]="role.value" *ngFor="let role of roles"> {{role.label}} </option>
+              </select>
+
+            </div>
+          </div>
+
+          <!-- created since -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.startDate"
+                name="startDate" class="form-control" placeholder="Created since" type="text">
+            </div>
+          </div>
+
+          <!-- created until -->
+          <div class="col-12 col-md-4 col-lg-auto my-1 form-group-inline">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              <input bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [(ngModel)]="filters.endDate"
+                name="endDate" class="form-control" placeholder="Created before" type="text">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="ml-auto">
+        <button class="btn btn-icon btn-sm btn-primary btn-primary my-1 text-nowrap" (click)="add()">
+          <span class="btn-inner--icon">
+            <i class="ni ni-fat-add"></i>
+          </span>
+          Add new
+        </button>
+      </div>
+    </div>
+
+    <div class=" table-responsive table-hover sticky-last-column">
+      <table class=" table align-items-center table-flush">
+        <thead class=" thead-light">
+          <tr>
+            <th scope="col">Name</th>
+
+            <th scope="col" class="text-center">Role</th>
+
+            <th scope="col" class="text-center">Devices checked out</th>
+
+            <th scope="col" class="text-center">Tests checked out</th>
+
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody class=" list">
+          <ng-template #loading>
+            <tr>
+              <td colspan="5" class="text-center"> Loading. Please wait...</td>
+            </tr>
+          </ng-template>
+
+          <ng-container *ngIf="(testers$ | async) as testers; else loading">
+            <tr>
+              <td colspan="5" class="text-center" *ngIf="testers.length === 0"> No testers available yet. Please try
+                again later.</td>
+            </tr>
+            <tr *ngFor="let tester of testers | paginate: testersPager">
+              <th scope="row">
+                <div class=" media align-items-center" [routerLink]="['/', 'tester', 'profile', tester.id]">
+                  <ngx-avatar class="mr-2" 
+                    [name]="tester.firstName + '' +  tester.lastName " 
+                    [src]="tester.avatar"
+                    [round]="true"
+                    [initialsSize]="2">
+                  </ngx-avatar>
+
+                  <div class="media-body d-flex flex-column">
+                    <span class="name mb-0 text-sm text-truncate d-inline-block" style="max-width: 150px;">
+                      {{tester.firstName}} {{tester.lastName}}
+                    </span>
+                    <small class="text-muted">{{tester.email}}</small>
+                  </div>
+                </div>
+              </th>
+              
+              <td class="bg-y text-center">
+                <span *ngFor="let role of tester.roles" 
+                  [class.btn-success]="role === ROLE.TESTER_MONITOR" 
+                  [class.btn-info]="role === ROLE.TESTER" 
+                  class="btn btn-primary btn-sm">
+                  {{ 'ROLE.' + role | translate }}
+                </span>
+              </td>
+
+              <td class="bg-y text-center">
+                <div class="avatar-group" *ngIf="tester.devices && tester.devices.length > 0">
+                  <a href="javascript:void(0)"
+                    *ngFor="let device of tester.devices"
+                    [routerLink]="['/', 'admin', 'devices', device.id]"
+                    [tooltip]="(device.type || 'Unknown') + ' [' + device.identifier + ']'"
+                    placement="top" 
+                    class=" avatar rounded-circle" >
+                    <ngx-avatar 
+                        [value]="(device.type || 'Unknown')" 
+                        [round]="false"
+                        [textSizeRatio]="8"
+                        [initialsSize]="2"></ngx-avatar>
+                  </a>
+                </div>
+              </td>
+
+              <td class="bg-y text-center">
+                <div class="avatar-group" *ngIf="tester.samples && tester.samples.length > 0">
+                  <a href="javascript:void(0)"
+                    *ngFor="let sample of tester.samples"
+                    [routerLink]="['/', 'admin', 'samples', sample.id]"
+                    [tooltip]="(sample.type || 'Unknown') + ' [' + sample.identifier + ']'"
+                    placement="top" 
+                    class=" avatar rounded-circle" >
+                    <ngx-avatar 
+                        [value]="(sample.type || 'Unknown')" 
+                        [round]="false"
+                        [textSizeRatio]="8"
+                        [initialsSize]="2"></ngx-avatar>
+                  </a>
+                </div>
+              </td>
+
+              <td class=" text-right">
+                <div dropdown class="dropdown no-caret" container="body">
+                  <a id="button-basic" dropdownToggle role="button"
+                    class="btn btn-sm btn-icon-only text-light dropdown-toggle" aria-controls="dropdown-basic">
+                    <i class=" fas fa-ellipsis-v"> </i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+                    
+                    <button class="dropdown-item" (click)="edit(tester)">
+                      Edit
+                    </button>
+
+                    <button class="dropdown-item" (click)="delete(tester)">
+                      Delete
+                    </button>
+
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination (pageChange)="pageChanged($event)"></app-pagination>
+  </div>
+</div>
